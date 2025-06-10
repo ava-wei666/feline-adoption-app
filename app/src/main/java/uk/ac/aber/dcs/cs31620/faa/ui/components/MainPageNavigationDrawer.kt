@@ -35,6 +35,16 @@ import androidx.navigation.compose.rememberNavController
 import uk.ac.aber.dcs.cs31620.faa.R
 import uk.ac.aber.dcs.cs31620.faa.ui.theme.FAATheme
 
+/**
+ * Creates the navigation drawer. Uses Material 3 ModalNavigationDrawer.
+ * Current implementation has an image at the top and then three items.
+ * @param navController To pass through the NavHostController since navigation is required
+ * @param drawerState The state of the drawer, i.e. whether open or closed
+ * @param closeDrawer To pass in the close navigation drawer behaviour as a lambda.
+ * By default has an empty lambda.
+ * @param content To pass in the page content for the page when the navigation drawer is closed
+ * @author Chris Loftus
+ */
 @Composable
 fun MainPageNavigationDrawer(
     navController: NavController,

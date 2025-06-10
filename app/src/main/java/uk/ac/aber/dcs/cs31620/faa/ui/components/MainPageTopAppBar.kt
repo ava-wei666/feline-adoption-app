@@ -13,7 +13,13 @@ import uk.ac.aber.dcs.cs31620.faa.R
 import uk.ac.aber.dcs.cs31620.faa.ui.theme.FAATheme
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.MaterialTheme
-
+/**
+ * Represents a top app bar component using M3 CenterAlignedTopAppBar.
+ * Has a menu button icon and the app name.
+ * @param onClick: provides the behaviour for the menu icon or
+ * an empty lambda if not provided.
+ * @author Chris Loftus
+ */
 @Composable
 fun MainPageTopAppBar(
     onClick: () -> Unit = {}

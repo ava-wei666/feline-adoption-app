@@ -12,7 +12,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import uk.ac.aber.dcs.cs31620.faa.ui.components.TopLevelScaffold
 import uk.ac.aber.dcs.cs31620.faa.ui.theme.FAATheme
-
+/**
+ * Represents the cats screen. For this version we only have a
+ * top app bar, navigation bar and empty content.
+ * @author Chris Loftus
+ */
 @Composable
 fun CatsScreen(
     navController: NavHostController

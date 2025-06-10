@@ -13,7 +13,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -21,6 +20,12 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import uk.ac.aber.dcs.cs31620.faa.R
 import uk.ac.aber.dcs.cs31620.faa.ui.navigation.Screen
 
+/**
+ * Creates the navigation bar displayed at the bottom of the screen.
+ * Currently has just two items: the Home item and the Cats item.
+ * @param navController To pass through the NavHostController since navigation is required
+ * @author Chris Loftus
+ */
 @Composable
 fun MainPageNavigationBar(
     navController: NavController
