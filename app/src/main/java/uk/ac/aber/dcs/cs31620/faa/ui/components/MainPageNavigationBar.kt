@@ -15,13 +15,24 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
+import androidx.navigation.NavController
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.compose.currentBackStackEntryAsState
 import uk.ac.aber.dcs.cs31620.faa.R
+import uk.ac.aber.dcs.cs31620.faa.ui.navigation.Screen
 
 @Composable
-fun MainPageNavigationBar() {
-    var homeSelected = rememberSaveable { mutableStateOf(true) }
+fun MainPageNavigationBar(
+    navController: NavController
+) {
+    val homeSelected = rememberSaveable { mutableStateOf(true) }
+
     NavigationBar {
         // Home tab. We could use a loop but for two items seems overkill
+        val navBackStackEntry by navController.currentBackStackEntryAsState()
+        val currentDestination = navBackStackEntry?.destination
+        homeSelected.value = currentDestination?.route == Screen.Home.route
+
         NavigationBarItem(
             icon = {
                 Icon(
@@ -36,7 +47,9 @@ fun MainPageNavigationBar() {
             },
             label = { Text(stringResource(id = R.string.home)) },
             selected = homeSelected.value,
-            onClick = { homeSelected.value = true }
+            onClick = {
+                doNavigate(Screen.Home.route, navController)
+            }
         )
 
         // Cats tab
@@ -54,7 +67,22 @@ fun MainPageNavigationBar() {
             },
             label = { Text(stringResource(id = R.string.cats)) },
             selected = !homeSelected.value,
-            onClick = { homeSelected.value = false }
+            onClick = {
+                doNavigate(Screen.Cats.route, navController)
+            }
         )
+    }
+}
+
+private fun doNavigate(
+    route: String,
+    navController: NavController
+){
+    navController.navigate(route) {
+        popUpTo(navController.graph.findStartDestination().id) {
+            saveState = true
+        }
+        launchSingleTop = true
+        restoreState = true
     }
 }
