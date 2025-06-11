@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import uk.ac.aber.dcs.cs31620.faa.ui.authentication.LoginScreen
 import uk.ac.aber.dcs.cs31620.faa.ui.cats.CatsScreen
 import uk.ac.aber.dcs.cs31620.faa.ui.theme.FAATheme
 import uk.ac.aber.dcs.cs31620.faa.ui.home.HomeScreen
@@ -47,6 +48,9 @@ private fun BuildNavigationGraph(modifier: Modifier = Modifier) {
         }
         composable(Screen.Cats.route) {
             CatsScreen(navController)
+        }
+        composable(Screen.Login.route) {
+            LoginScreen(navController, modifier)
         }
     }
 }

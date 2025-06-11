@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import uk.ac.aber.dcs.cs31620.faa.R
+import uk.ac.aber.dcs.cs31620.faa.ui.navigation.Screen
 import uk.ac.aber.dcs.cs31620.faa.ui.theme.FAATheme
 
 /**
@@ -82,7 +83,13 @@ fun MainPageNavigationDrawer(
                         description = stringResource(R.string.login),
                         selectedItem = selectedItem,
                         updateSelected = { selectedItem = it },
-                        doClick = { } // Navigate to some login screen
+                        doClick = {
+                            // We could call closeDrawer but I think it's
+                            // better to keep it open so that going back
+                            // from the login screen returns the user to the
+                            // open drawer.
+                            navController.navigate(route = Screen.Login.route)
+                        } // Navigate to some login screen
                     )
                     DisplayNavItem(
                         imageVector = Icons.AutoMirrored.Filled.Help,

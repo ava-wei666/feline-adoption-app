@@ -10,4 +10,5 @@ sealed class Screen (
 ) {
     data object Home : Screen("home")
     data object Cats : Screen("cats")
+    data object Login : Screen("login")
 }
