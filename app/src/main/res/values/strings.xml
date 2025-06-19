@@ -9,4 +9,8 @@
     <string name="feedback">Feedback</string>
     <string name="login_email">Login email:</string>
     <string name="cancel">Cancel</string>
+    <string name="home_picture_image">Image of kittens</string>
+    <string name="welcome">Our mission is to find caring homes for our cats and kittens. Sign-up to start the process.</string>
+    <string name="featured_cat_title">This month\'s featured cat:</string>
+    <string name="featured_cat_description">Image of this month\'s featured cat</string>
 </resources>

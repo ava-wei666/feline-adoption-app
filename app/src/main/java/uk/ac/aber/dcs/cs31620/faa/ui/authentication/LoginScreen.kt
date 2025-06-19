@@ -25,6 +25,7 @@ import uk.ac.aber.dcs.cs31620.faa.ui.theme.FAATheme
  * the behaviour (e.g. to Firebase authentication) to be implemented
  * and the inclusion of a Register button.
  * @param navController To pass through the NavHostController since navigation will be required
+ * @param modifier To pass Modifier constraints through, such as inner padding
  * @author Chris Loftus
  */
 @Composable
