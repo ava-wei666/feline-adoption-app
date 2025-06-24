@@ -7,6 +7,10 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.stringResource
@@ -41,6 +45,7 @@ fun SearchArea(
     proximity: Int,
     updateProximity: (Int)-> Unit
 ){
+    var dialogIsOpen by rememberSaveable {mutableStateOf(false)}
     Card(
         shape = RectangleShape,
         elevation =
@@ -78,6 +83,7 @@ fun SearchArea(
             OutlinedButton(
                 onClick = {
                     // To be defined in section 2
+                    dialogIsOpen = true
                 },
                 modifier = Modifier
                     .weight(1f)
@@ -88,6 +94,14 @@ fun SearchArea(
                     fontSize = 16.sp
                 )
             }
+            DistanceDialog(
+                distance = proximity,
+                dialogIsOpen = dialogIsOpen,
+                dialogOpen = { isOpen ->
+                    dialogIsOpen = isOpen
+                },
+                changeDistance = updateProximity
+            )
         }
     }
 }
