@@ -20,6 +20,9 @@
     <string name="distance_to_travel_dialog_instructions">Indicate how far you are willing to travel to adopt</string>
     <string name="confirm_button">Confirm</string>
     <string name="dismiss_button">Dismiss</string>
+    <string name="cat_image">Image of cat</string>
+    <string name="remove_cat">Remove cat button</string>
+    <string name="add_cat">Add cat FAB</string>
 
     <string-array name="gender_array">
         <item>Any gender</item>
