@@ -3,11 +3,15 @@ package uk.ac.aber.dcs.cs31620.faa.ui.components
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarData
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.navigation.NavController
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+
 /**
  * Creates the page scaffold to contain top app bar, navigation drawer,
  * bottom navigation button and of course the page content.
@@ -19,12 +23,16 @@ import kotlinx.coroutines.launch
 @Composable
 fun TopLevelScaffold(
     navController: NavController,
+    floatingActionButton: @Composable () -> Unit = { },
+    snackbarContent: @Composable (SnackbarData) -> Unit = {},
+    coroutineScope: CoroutineScope,
+    snackbarHostState: SnackbarHostState? = null,
     pageContent:
     @Composable (innerPadding: PaddingValues) -> Unit = {}
 ) {
     val drawerState =
         rememberDrawerState(initialValue = DrawerValue.Closed)
-    val coroutineScope = rememberCoroutineScope()
+    //val coroutineScope = rememberCoroutineScope()
 
     MainPageNavigationDrawer(
         navController = navController,
@@ -47,6 +55,14 @@ fun TopLevelScaffold(
                         }
                     }
                 })
+            },
+            floatingActionButton = floatingActionButton,
+            snackbarHost = {
+                snackbarHostState?.let {
+                    SnackbarHost(hostState = snackbarHostState) { data ->
+                        snackbarContent(data)
+                    }
+                }
             },
             bottomBar = {
                 MainPageNavigationBar(navController)

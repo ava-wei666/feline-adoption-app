@@ -12,6 +12,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -37,8 +38,10 @@ import kotlin.random.Random
 fun HomeScreen(
     navController: NavController
 ) {
+    val coroutineScope = rememberCoroutineScope()
     TopLevelScaffold(
-        navController = navController
+        navController = navController,
+        coroutineScope = coroutineScope
     ) { innerPadding ->
         Surface(
             modifier = Modifier
