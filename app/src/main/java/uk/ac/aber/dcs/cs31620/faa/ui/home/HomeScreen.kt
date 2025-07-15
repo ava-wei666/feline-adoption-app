@@ -23,7 +23,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import uk.ac.aber.dcs.cs31620.faa.R
-import uk.ac.aber.dcs.cs31620.faa.model.cats
 import uk.ac.aber.dcs.cs31620.faa.ui.components.TopLevelScaffold
 import uk.ac.aber.dcs.cs31620.faa.ui.theme.FAATheme
 import kotlin.collections.get
@@ -99,14 +98,15 @@ private fun HomeScreenContent(
 private fun FeaturedCat(
     modifier: Modifier = Modifier
 ) {
-    val catPos = Random.nextInt(cats.size)
-
+    // val catPos = Random.nextInt(cats.size)
+    /*
     Image(
         modifier = modifier,
         painter = painterResource(cats[catPos].resourceId),
         contentDescription = stringResource(R.string.featured_cat_description),
         contentScale = ContentScale.Crop
     )
+    */
 
 }
 

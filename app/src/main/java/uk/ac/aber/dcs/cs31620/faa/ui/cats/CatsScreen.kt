@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.FloatingActionButton
@@ -27,14 +26,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import kotlinx.coroutines.launch
 import uk.ac.aber.dcs.cs31620.faa.R
-import uk.ac.aber.dcs.cs31620.faa.model.cats
 import uk.ac.aber.dcs.cs31620.faa.ui.components.CatCard
 import uk.ac.aber.dcs.cs31620.faa.ui.components.DefaultSnackbar
 import uk.ac.aber.dcs.cs31620.faa.ui.components.SearchArea
 import uk.ac.aber.dcs.cs31620.faa.ui.components.TopLevelScaffold
 import uk.ac.aber.dcs.cs31620.faa.ui.theme.FAATheme
-import kotlinx.coroutines.launch
 
 /**
  * Represents the cats screen. For this version we only have a
@@ -105,7 +103,7 @@ fun CatsScreen(
                 updateProximity = { proximity = it }
             )
 
-            LazyVerticalGrid(
+           /* LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
                 modifier = Modifier
                     .weight(1f)
@@ -127,7 +125,7 @@ fun CatsScreen(
                         }
                     )
                 }
-            }
+            }*/
 
         }
     }
