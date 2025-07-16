@@ -1,5 +1,6 @@
 package uk.ac.aber.dcs.cs31620.faa.ui.home
 
+import android.app.Application
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -12,9 +13,11 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -23,8 +26,10 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import uk.ac.aber.dcs.cs31620.faa.R
+import uk.ac.aber.dcs.cs31620.faa.datasource.FaaRepository
 import uk.ac.aber.dcs.cs31620.faa.ui.components.TopLevelScaffold
 import uk.ac.aber.dcs.cs31620.faa.ui.theme.FAATheme
+import java.time.LocalDateTime
 import kotlin.collections.get
 import kotlin.random.Random
 
@@ -98,6 +103,13 @@ private fun HomeScreenContent(
 private fun FeaturedCat(
     modifier: Modifier = Modifier
 ) {
+    val context = LocalContext.current.applicationContext
+    LaunchedEffect(key1 = Unit){
+        val repository = FaaRepository(context as Application)
+        val past = LocalDateTime.now().minusDays(30)
+        repository.getRecentCatsSync(past, LocalDateTime.now())
+    }
+
     // val catPos = Random.nextInt(cats.size)
     /*
     Image(

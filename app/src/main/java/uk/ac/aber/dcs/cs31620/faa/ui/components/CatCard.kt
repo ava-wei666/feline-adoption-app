@@ -23,7 +23,6 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import uk.ac.aber.dcs.cs31620.faa.R
 import uk.ac.aber.dcs.cs31620.faa.model.Cat
-import uk.ac.aber.dcs.cs31620.faa.model.cats
 import uk.ac.aber.dcs.cs31620.faa.ui.theme.FAATheme
 
 /**
@@ -46,7 +45,7 @@ fun CatCard(
         modifier = modifier
             .fillMaxSize()
     ) {
-        ConstraintLayout {
+        /*ConstraintLayout {
             val (imageRef, nameRef, deleteRef) = createRefs()
 
             Image(
@@ -90,15 +89,15 @@ fun CatCard(
                     contentDescription = stringResource(R.string.remove_cat)
                 )
             }
-        }
+        }*/
     }
 }
 
-@Preview
+/*@Preview
 @Composable
 private fun CatCardPreview(){
     FAATheme(darkTheme = true,
         dynamicColor = false) {
         CatCard(cat = cats[0])
     }
-}
+}*/
