@@ -1,5 +1,6 @@
 package uk.ac.aber.dcs.cs31620.faa.ui.components
 
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,6 +22,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
 import uk.ac.aber.dcs.cs31620.faa.R
 import uk.ac.aber.dcs.cs31620.faa.model.Cat
 import uk.ac.aber.dcs.cs31620.faa.ui.theme.FAATheme
@@ -34,6 +37,7 @@ import uk.ac.aber.dcs.cs31620.faa.ui.theme.FAATheme
  * @param deleteAction The operation to perform when the delete icon is tapped
  * @author Chris Loftus
  */
+@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun CatCard(
     modifier: Modifier = Modifier,
@@ -45,14 +49,18 @@ fun CatCard(
         modifier = modifier
             .fillMaxSize()
     ) {
-        /*ConstraintLayout {
+        ConstraintLayout {
             val (imageRef, nameRef, deleteRef) = createRefs()
 
-            Image(
-                painter = painterResource(id = cat.resourceId),
+            // There is a more efficient way to use Glide in LazyLists
+            // The problem is that we are using a LazyVerticalGrid in the
+            // caller which is incompatible with the more efficient version.
+            // See https://bumptech.github.io/glide/int/compose.html
+            GlideImage(
+                model = Uri.parse("file:///android_asset/images/${cat.imagePath}"),
                 contentDescription = stringResource(R.string.cat_image),
                 contentScale = ContentScale.Crop,
-                modifier = modifier
+                modifier = Modifier
                     .height(190.dp)
                     .padding(top = 4.dp, start = 4.dp, end = 4.dp)
                     .constrainAs(imageRef) {
@@ -89,7 +97,7 @@ fun CatCard(
                     contentDescription = stringResource(R.string.remove_cat)
                 )
             }
-        }*/
+        }
     }
 }
 

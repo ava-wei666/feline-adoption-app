@@ -34,7 +34,7 @@ abstract class FaaRoomDatabase : RoomDatabase() {
                         FaaRoomDatabase::class.java,
                         "faa_database"
                     )
-                        .allowMainThreadQueries()
+                        //.allowMainThreadQueries()
                         .addCallback(roomDatabaseCallback(context))
                         //.addMigrations(MIGRATION_1_2, MIGRATION_2_3)
                         .build()

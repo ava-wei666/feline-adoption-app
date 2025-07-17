@@ -9,13 +9,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import uk.ac.aber.dcs.cs31620.faa.model.CatsViewModel
 import uk.ac.aber.dcs.cs31620.faa.ui.authentication.LoginScreen
 import uk.ac.aber.dcs.cs31620.faa.ui.cats.CatsScreen
+import uk.ac.aber.dcs.cs31620.faa.ui.cats.CatsScreenTopLevel
 import uk.ac.aber.dcs.cs31620.faa.ui.theme.FAATheme
 import uk.ac.aber.dcs.cs31620.faa.ui.home.HomeScreen
+import uk.ac.aber.dcs.cs31620.faa.ui.home.HomeScreenTopLevel
 import uk.ac.aber.dcs.cs31620.faa.ui.navigation.Screen
 /**
  * Starting activity class. Entry point for the app.
@@ -36,7 +40,10 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-private fun BuildNavigationGraph(modifier: Modifier = Modifier) {
+private fun BuildNavigationGraph(
+    modifier: Modifier = Modifier,
+    catsViewModel: CatsViewModel = viewModel()
+) {
     val navController = rememberNavController()
 
     NavHost(
@@ -44,10 +51,10 @@ private fun BuildNavigationGraph(modifier: Modifier = Modifier) {
         startDestination = Screen.Home.route
     ) {
         composable(Screen.Home.route) {
-            HomeScreen(navController)
+            HomeScreenTopLevel(navController, catsViewModel)
         }
         composable(Screen.Cats.route) {
-            CatsScreen(navController)
+            CatsScreenTopLevel(navController, catsViewModel)
         }
         composable(Screen.Login.route) {
             LoginScreen(navController, modifier)
