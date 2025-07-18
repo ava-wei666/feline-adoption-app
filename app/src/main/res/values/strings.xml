@@ -24,6 +24,10 @@
     <string name="remove_cat">Remove cat button</string>
     <string name="add_cat">Add cat FAB</string>
 
+    <!-- Intent support -->
+    <string name="action_view_cats">uk.ac.aber.dcs.cs31620.faa.action.VIEW_CATS</string>
+    <string name="cats_uri">http://faa.cs31620.dcs.aber.ac.uk/cats</string>
+
     <string-array name="gender_array">
         <item>Any gender</item>
         <item>Female</item>
