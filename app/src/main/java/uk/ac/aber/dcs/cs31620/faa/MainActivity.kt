@@ -18,6 +18,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import uk.ac.aber.dcs.cs31620.faa.model.CatsViewModel
 import uk.ac.aber.dcs.cs31620.faa.ui.authentication.LoginScreen
+import uk.ac.aber.dcs.cs31620.faa.ui.cats.AddCatScreenTopLevel
 import uk.ac.aber.dcs.cs31620.faa.ui.cats.CatsScreen
 import uk.ac.aber.dcs.cs31620.faa.ui.cats.CatsScreenTopLevel
 import uk.ac.aber.dcs.cs31620.faa.ui.theme.FAATheme
@@ -74,6 +75,9 @@ private fun BuildNavigationGraph(
         }
         composable(Screen.Login.route) {
             LoginScreen(navController, modifier)
+        }
+        composable(Screen.AddCat.route) {
+            AddCatScreenTopLevel(navController)
         }
     }
 }

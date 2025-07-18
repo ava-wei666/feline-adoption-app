@@ -27,6 +27,7 @@ import com.bumptech.glide.integration.compose.GlideImage
 import uk.ac.aber.dcs.cs31620.faa.R
 import uk.ac.aber.dcs.cs31620.faa.model.Cat
 import uk.ac.aber.dcs.cs31620.faa.ui.theme.FAATheme
+import androidx.core.net.toUri
 
 /**
  * Represents a single cat as a Card with image, name and
@@ -57,7 +58,7 @@ fun CatCard(
             // caller which is incompatible with the more efficient version.
             // See https://bumptech.github.io/glide/int/compose.html
             GlideImage(
-                model = Uri.parse("file:///android_asset/images/${cat.imagePath}"),
+                model = cat.imagePath.toUri(),
                 contentDescription = stringResource(R.string.cat_image),
                 contentScale = ContentScale.Crop,
                 modifier = Modifier

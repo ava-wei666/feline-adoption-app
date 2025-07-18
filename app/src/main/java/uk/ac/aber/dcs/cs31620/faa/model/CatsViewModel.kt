@@ -6,6 +6,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import uk.ac.aber.dcs.cs31620.faa.R
 import uk.ac.aber.dcs.cs31620.faa.datasource.FaaRepository
 import java.time.LocalDateTime
@@ -40,6 +43,12 @@ class CatsViewModel(application: Application) : AndroidViewModel(application) {
     fun updateCatSearch(value: CatSearch) {
         // Now reissue the search
         getCats(value)
+    }
+
+    fun insertCat(newCat: Cat) {
+        viewModelScope.launch(Dispatchers.IO){
+            repository.insert(newCat)
+        }
     }
 
     private fun loadRecentCats(): LiveData<List<Cat>> {

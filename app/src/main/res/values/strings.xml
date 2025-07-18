@@ -27,7 +27,28 @@
     <!-- Intent support -->
     <string name="action_view_cats">uk.ac.aber.dcs.cs31620.faa.action.VIEW_CATS</string>
     <string name="cats_uri">http://faa.cs31620.dcs.aber.ac.uk/cats</string>
+    <string name="default_image_path">file:///android_asset/images/default_image.png</string>
+    <string name="addCat">Add cat</string>
+    <string name="goBack">Go back button</string>
 
+    <!-- Add cat page -->
+    <string name="cat_picture_image">Picture of new cat</string>
+    <string name="cat_name">Name:</string>
+    <string name="catGender">Gender:</string>
+    <string name="catAge">Age:</string>
+    <string name="catBreed">Breed:</string>
+    <string name="new_cat_description">Enter description here</string>
+    <string name="dob">Date of birth: %1$s</string>
+    <string name="enterImageMsg">Tap image to add/replace image</string>
+    <string name="date_format">dd/MM/yyyy</string>
+    <string name="cannot_create_image_file">Cannot take a picture, possibly insufficient space</string>
+    <string name="missing_data">Name and date fields must have values</string>
+    <string name="cannotTakePicture">Unable to start Camera app</string>
+    <string name="ok">OK</string>
+    <string name="pickDate">Pick a date</string>
+    <string name="enterDescription">Enter description:</string>
+
+    <!-- Arrays of values -->
     <string-array name="gender_array">
         <item>Any gender</item>
         <item>Female</item>

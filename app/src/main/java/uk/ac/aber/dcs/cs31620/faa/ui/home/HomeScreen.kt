@@ -40,6 +40,7 @@ import uk.ac.aber.dcs.cs31620.faa.ui.theme.FAATheme
 import java.time.LocalDateTime
 import kotlin.collections.get
 import kotlin.random.Random
+import androidx.core.net.toUri
 
 @Composable
 fun HomeScreenTopLevel(
@@ -135,7 +136,7 @@ private fun FeaturedCat(
 
         if (catImage.isNotEmpty()) {
             GlideImage(
-                model = Uri.parse("file:///android_asset/images/${catImage}"),
+                model = catImage.toUri(),
                 contentDescription = stringResource(R.string.featured_cat_description),
                 contentScale = ContentScale.Crop,
                 modifier = modifier

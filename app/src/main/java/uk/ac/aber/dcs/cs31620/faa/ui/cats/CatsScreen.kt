@@ -40,6 +40,7 @@ import uk.ac.aber.dcs.cs31620.faa.ui.theme.FAATheme
 import uk.ac.aber.dcs.cs31620.faa.model.CatSearch
 import uk.ac.aber.dcs.cs31620.faa.model.Cat
 import androidx.compose.foundation.lazy.grid.items
+import uk.ac.aber.dcs.cs31620.faa.ui.navigation.Screen
 
 @Composable
 fun CatsScreenTopLevel(
@@ -78,12 +79,13 @@ fun CatsScreen(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-                    coroutineScope.launch {
+                    navController.navigate(Screen.AddCat.route)
+                    /*coroutineScope.launch {
                         snackbarHostState.showSnackbar(
                             message = "Add cat",
                             actionLabel = "Undo"
                         )
-                    }
+                    }*/
                 }
             ) {
                 Icon(
