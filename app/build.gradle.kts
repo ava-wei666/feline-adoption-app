@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -36,13 +38,15 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-    kotlinOptions {
-        jvmTarget = "11"
-        freeCompilerArgs +=
-            "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api"
-    }
+
     buildFeatures {
         compose = true
+    }
+}
+kotlin{
+    compilerOptions {
+        jvmTarget = JvmTarget.fromTarget("11")
+        freeCompilerArgs.add("-opt-in=androidx.compose.material3.ExperimentalMaterial3Api")
     }
 }
 
