@@ -35,7 +35,7 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="uk.ac.aber.dcs.cs31620.faa"
+            android:authorities="uk.ac.aber.dcs.cs31620.assignment"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

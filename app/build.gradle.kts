@@ -12,7 +12,7 @@ android {
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "uk.ac.aber.dcs.cs31620.faa"
+        applicationId = "uk.ac.aber.dcs.cs31620.assignment"
         minSdk = 26
         targetSdk = 35
         versionCode = 1
