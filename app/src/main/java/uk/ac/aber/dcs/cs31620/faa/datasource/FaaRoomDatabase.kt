@@ -15,11 +15,14 @@ import uk.ac.aber.dcs.cs31620.faa.model.Cat
 import uk.ac.aber.dcs.cs31620.faa.model.CatDao
 import uk.ac.aber.dcs.cs31620.faa.model.Gender
 import java.time.LocalDateTime
+import uk.ac.aber.dcs.cs31620.faa.model.FostererDao //import DAO
+import uk.ac.aber.dcs.cs31620.faa.model.Fosterer //import entities
 
-@Database(entities = [Cat::class], version = 1)
+@Database(entities = [Cat::class, Fosterer::class], version = 2)
 @TypeConverters(LocalDateTimeConverter::class, GenderConverter::class)
 abstract class FaaRoomDatabase : RoomDatabase() {
     abstract fun catDao(): CatDao
+    abstract fun fostererDao(): FostererDao
 
     companion object {
         private var instance: FaaRoomDatabase? = null
@@ -34,9 +37,10 @@ abstract class FaaRoomDatabase : RoomDatabase() {
                         FaaRoomDatabase::class.java,
                         "faa_database"
                     )
-                        //.allowMainThreadQueries()
+                        .allowMainThreadQueries()
                         .addCallback(roomDatabaseCallback(context))
-                        //.addMigrations(MIGRATION_1_2, MIGRATION_2_3)
+
+                        .fallbackToDestructiveMigration()
                         .build()
             }
             return instance
@@ -48,14 +52,14 @@ abstract class FaaRoomDatabase : RoomDatabase() {
                     super.onCreate(db)
 
                     coroutineScope.launch {
+
                         populateDatabase(context, getDatabase(context)!!)
                     }
                 }
             }
         }
 
-        private suspend fun populateDatabase(context: Context, instance:
-        FaaRoomDatabase) {
+        private suspend fun populateDatabase(context: Context, instance: FaaRoomDatabase) {
             val upToOneYear = LocalDateTime.now().minusDays(365 / 2)
             val from1to2Years = LocalDateTime.now().minusDays(365 + (36 / 2))
             val from2to5Years = LocalDateTime.now().minusDays(365 * 3)
@@ -64,7 +68,7 @@ abstract class FaaRoomDatabase : RoomDatabase() {
             val veryRecentAdmission = LocalDateTime.now()
 
             val upToOneYearCat = Cat(
-                0,  "Tibs",  Gender.MALE,
+                0, "Tibs", Gender.MALE,
                 "Moggie",
                 "Lorem ipsum dolor...",
                 upToOneYear,
@@ -120,8 +124,29 @@ abstract class FaaRoomDatabase : RoomDatabase() {
             val dao = instance.catDao()
             dao.insertMultipleCats(catList)
 
+            // the new Fosterer data
+            val fostererDao = instance.fostererDao()
+
+            val fosterers = listOf(
+                Fosterer(
+                    name = "Alice Smith",
+                    address = "123 Main St, Aberystwyth",
+                    phoneNumber = "000000111",
+                    latitude = 52.4913,
+                    longitude = -4.0505,
+                    regionName = "Bow Street"
+                ),
+                Fosterer(
+                    name = "Bob Jones",
+                    address = "Llanbadarn Fawr",
+                    phoneNumber = "01970 654321",
+                    latitude = 52.4100,
+                    longitude = -4.0500,
+                    regionName = "Aberystwyth"
+                )
+            )
+
+            fostererDao.insertMultipleFosterers(fosterers)
         }
-
     }
-
 }

@@ -140,9 +140,8 @@ fun CatsScreen(
                         cat = it,
                         modifier = Modifier
                             .padding(end = 4.dp, top = 4.dp),
-                        selectAction = {cat ->
-                            Toast.makeText(context, "Selected ${cat.name}",
-                                Toast.LENGTH_LONG).show()
+                        selectAction = { cat ->
+                            navController.navigate(Screen.CatDetails.createRoute(cat.id))
                         },
                         deleteAction = {cat ->
                             Toast.makeText(context, "Delete ${cat.name}",

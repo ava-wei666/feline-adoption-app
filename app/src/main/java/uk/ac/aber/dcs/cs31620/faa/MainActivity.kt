@@ -1,5 +1,9 @@
 package uk.ac.aber.dcs.cs31620.faa
 
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
+import uk.ac.aber.dcs.cs31620.faa.ui.cats.CatDetailsScreenTopLevel
+
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.LocalActivity
@@ -78,6 +82,14 @@ private fun BuildNavigationGraph(
         }
         composable(Screen.AddCat.route) {
             AddCatScreenTopLevel(navController)
+        }
+        composable(
+            route = Screen.CatDetails.route,
+            arguments = listOf(navArgument("catId") { type = NavType.IntType })
+        ) { backStackEntry ->
+            val catId = backStackEntry.arguments?.getInt("catId") ?: 0
+
+            CatDetailsScreenTopLevel(navController = navController, catId = catId)
         }
     }
 }
