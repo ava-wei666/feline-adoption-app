@@ -3,7 +3,6 @@ package uk.ac.aber.dcs.cs31620.faa
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import uk.ac.aber.dcs.cs31620.faa.ui.cats.CatDetailsScreenTopLevel
-
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.LocalActivity
@@ -29,6 +28,7 @@ import uk.ac.aber.dcs.cs31620.faa.ui.theme.FAATheme
 import uk.ac.aber.dcs.cs31620.faa.ui.home.HomeScreen
 import uk.ac.aber.dcs.cs31620.faa.ui.home.HomeScreenTopLevel
 import uk.ac.aber.dcs.cs31620.faa.ui.navigation.Screen
+import uk.ac.aber.dcs.cs31620.faa.ui.fosterers.FosterersScreenTopLevel
 /**
  * Starting activity class. Entry point for the app.
  * @author Chris Loftus
@@ -90,6 +90,9 @@ private fun BuildNavigationGraph(
             val catId = backStackEntry.arguments?.getInt("catId") ?: 0
 
             CatDetailsScreenTopLevel(navController = navController, catId = catId)
+        }
+        composable(Screen.Fosterers.route) {
+            FosterersScreenTopLevel(navController)
         }
     }
 }

@@ -13,6 +13,7 @@ sealed class Screen (
     data object Login : Screen("login")
     data object AddCat : Screen("addCat")
 
+    data object Fosterers : Screen("fosterers")
     data object CatDetails : Screen("cats/{catId}") {
         fun createRoute(catId: Int) = "cats/$catId"
     }

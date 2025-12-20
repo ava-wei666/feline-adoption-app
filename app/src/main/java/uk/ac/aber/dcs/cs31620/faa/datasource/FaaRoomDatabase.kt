@@ -17,6 +17,7 @@ import uk.ac.aber.dcs.cs31620.faa.model.Gender
 import java.time.LocalDateTime
 import uk.ac.aber.dcs.cs31620.faa.model.FostererDao //import DAO
 import uk.ac.aber.dcs.cs31620.faa.model.Fosterer //import entities
+import uk.ac.aber.dcs.cs31620.faa.R
 
 @Database(entities = [Cat::class, Fosterer::class], version = 2)
 @TypeConverters(LocalDateTimeConverter::class, GenderConverter::class)
@@ -134,7 +135,8 @@ abstract class FaaRoomDatabase : RoomDatabase() {
                     phoneNumber = "000000111",
                     latitude = 52.4913,
                     longitude = -4.0505,
-                    regionName = "Bow Street"
+                    regionName = "Bow Street",
+                    imageResId = R.drawable.shin_chan
                 ),
                 Fosterer(
                     name = "Bob Jones",
@@ -142,7 +144,8 @@ abstract class FaaRoomDatabase : RoomDatabase() {
                     phoneNumber = "01970 654321",
                     latitude = 52.4100,
                     longitude = -4.0500,
-                    regionName = "Aberystwyth"
+                    regionName = "Aberystwyth",
+                    imageResId = R.drawable.person2
                 )
             )
 

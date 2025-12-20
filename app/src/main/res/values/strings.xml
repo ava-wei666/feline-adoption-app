@@ -3,6 +3,7 @@
     <string name="nav_drawer_menu">Navigation drawer menu</string>
     <string name="home">Home</string>
     <string name="cats">Cats</string>
+    <string name="fosterers">Fosterers</string>
     <string name="small_kitten">A small kitten</string>
     <string name="login">Login</string>
     <string name="help">Help</string>

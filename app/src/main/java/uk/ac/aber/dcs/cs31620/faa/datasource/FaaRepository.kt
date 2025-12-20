@@ -7,6 +7,8 @@ import java.time.LocalDateTime
 
 class FaaRepository(application: Application) {
     private val catDao = FaaRoomDatabase.getDatabase(application)!!.catDao()
+    private val fostererDao = FaaRoomDatabase.getDatabase(application)!!.fostererDao()
+    val fostererList = fostererDao.getAllFosterers()
 
     suspend fun insert(cat: Cat) {
         catDao.insertSingleCat(cat)
