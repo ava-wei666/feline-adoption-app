@@ -60,4 +60,5 @@ class FaaRepository(application: Application) {
     fun getRecentCatsSync(startDate: LocalDateTime, endDate: LocalDateTime) =
         catDao.getCatsAdmittedBetweenDatesSync(startDate, endDate)
 
+    fun getCatsByFosterer(fostererId: Long) = catDao.getCatsByFostererId(fostererId)
 }

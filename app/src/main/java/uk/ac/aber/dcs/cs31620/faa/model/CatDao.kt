@@ -7,6 +7,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
+import kotlinx.coroutines.flow.Flow
 import java.time.LocalDateTime
 
 @Dao
@@ -83,4 +84,7 @@ interface CatDao {
         startDate: LocalDateTime,
         endDate: LocalDateTime
     ): LiveData<List<Cat>>
+
+    @Query("SELECT * FROM cats WHERE fostererId = :fostererId")
+    fun getCatsByFostererId(fostererId: Long): Flow<List<Cat>>
 }

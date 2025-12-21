@@ -11,10 +11,8 @@ class FosterersViewModel(application: Application) : AndroidViewModel(applicatio
     private val repository = FaaRepository(application)
 
     // use .asLiveData() to convert the Flow from DAO to LiveData for the UI
-    //val fostererList: LiveData<List<Fosterer>> = repository.fostererList.asLiveData()
 
-    //val fostererList: LiveData<List<Fosterer>> = repository.fostererList.asLiveData()
     val fostererList: LiveData<List<Fosterer>> = repository.fostererList.asLiveData()
 
-    //val fostererList: LiveData<List<Fosterer>> = MutableLiveData(emptyList())
+
 }

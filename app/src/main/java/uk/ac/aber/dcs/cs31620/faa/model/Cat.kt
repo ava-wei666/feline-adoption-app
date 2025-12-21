@@ -23,7 +23,9 @@ data class Cat(
     @ColumnInfo(name = "admission_date")
     var admissionDate: LocalDateTime = LocalDateTime.now(),
     @ColumnInfo(name = "main_image_path")
-    var imagePath: String = ""
+    var imagePath: String = "",
+    //record which fosterer person this cat belongs to
+    var fostererId: Long = 1
 ) {
 
     fun isKitten(): Boolean {
