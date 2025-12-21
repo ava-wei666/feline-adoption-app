@@ -18,13 +18,15 @@ import java.time.LocalDateTime
 import uk.ac.aber.dcs.cs31620.faa.model.FostererDao
 import uk.ac.aber.dcs.cs31620.faa.model.Fosterer
 import uk.ac.aber.dcs.cs31620.faa.R
+import uk.ac.aber.dcs.cs31620.faa.model.Adopter
+import uk.ac.aber.dcs.cs31620.faa.model.AdopterDao
 
-@Database(entities = [Cat::class, Fosterer::class], version = 6)
+@Database(entities = [Cat::class, Fosterer::class, Adopter::class], version = 7)
 @TypeConverters(LocalDateTimeConverter::class, GenderConverter::class)
 abstract class FaaRoomDatabase : RoomDatabase() {
     abstract fun catDao(): CatDao
     abstract fun fostererDao(): FostererDao
-
+    abstract fun adopterDao(): AdopterDao
     companion object {
         @Volatile
         private var instance: FaaRoomDatabase? = null
@@ -105,8 +107,18 @@ abstract class FaaRoomDatabase : RoomDatabase() {
                     imageResId = R.drawable.person2
                 )
             )
-
             instance.fostererDao().insertMultipleFosterers(fosterers)
+
+            val adopterDao = instance.adopterDao()
+            val dummyAdopter = Adopter(
+                username = "user",
+                password = "password",
+                name = "My Test User",
+                address = "Aberystwyth University",
+                latitude = 52.4180,
+                longitude = -4.0657
+            )
+            adopterDao.insertAdopter(dummyAdopter)
         }
     }
 }
