@@ -24,15 +24,12 @@ import uk.ac.aber.dcs.cs31620.faa.ui.authentication.LoginScreen
 import uk.ac.aber.dcs.cs31620.faa.ui.cats.AddCatScreenTopLevel
 import uk.ac.aber.dcs.cs31620.faa.ui.cats.CatsScreen
 import uk.ac.aber.dcs.cs31620.faa.ui.cats.CatsScreenTopLevel
+import uk.ac.aber.dcs.cs31620.faa.ui.fosterers.FostererProfileScreen
 import uk.ac.aber.dcs.cs31620.faa.ui.theme.FAATheme
 import uk.ac.aber.dcs.cs31620.faa.ui.home.HomeScreen
 import uk.ac.aber.dcs.cs31620.faa.ui.home.HomeScreenTopLevel
 import uk.ac.aber.dcs.cs31620.faa.ui.navigation.Screen
 import uk.ac.aber.dcs.cs31620.faa.ui.fosterers.FosterersScreenTopLevel
-/**
- * Starting activity class. Entry point for the app.
- * @author Chris Loftus
- */
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -93,6 +90,13 @@ private fun BuildNavigationGraph(
         }
         composable(Screen.Fosterers.route) {
             FosterersScreenTopLevel(navController)
+        }
+        composable(
+            route = Screen.FostererProfile.route,
+            arguments = listOf(navArgument("fostererId") { type = NavType.LongType })
+        ) { backStackEntry ->
+            val id = backStackEntry.arguments?.getLong("fostererId") ?: 0L
+            FostererProfileScreen(navController = navController, fostererId = id)
         }
     }
 }

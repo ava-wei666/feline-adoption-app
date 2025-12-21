@@ -14,5 +14,7 @@ data class Fosterer(
     val latitude: Double,
     val longitude: Double,
     val regionName: String,
-    val imageResId: Int= 0
+    val imageResId: Int= 0,
+    val age: Int = 0,
+    val gender: String = "",
 )

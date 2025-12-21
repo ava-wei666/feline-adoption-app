@@ -10,9 +10,15 @@ import androidx.lifecycle.asLiveData
 class FosterersViewModel(application: Application) : AndroidViewModel(application) {
     private val repository = FaaRepository(application)
 
-    // use .asLiveData() to convert the Flow from DAO to LiveData for the UI
-
     val fostererList: LiveData<List<Fosterer>> = repository.fostererList.asLiveData()
 
+    //Obtain the corresponding cat based on the fostererId
+    fun getCatsForFosterer(fostererId: Long): LiveData<List<Cat>>{
+        return repository.getCatsByFosterer(fostererId).asLiveData()
+    }
 
+    //obtain the fosterer based on its id
+    fun getFosterer(id: Long): Fosterer? {
+        return fostererList.value?.find { it.id == id}
+    }
 }

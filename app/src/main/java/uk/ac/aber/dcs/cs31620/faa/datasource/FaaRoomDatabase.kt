@@ -95,12 +95,12 @@ abstract class FaaRoomDatabase : RoomDatabase() {
 
             val fosterers = listOf(
                 Fosterer(
-                    name = "Alice Smith", address = "123 Main St", phoneNumber = "000000111",
+                    name = "Shin Chan", address = "123 Main St", phoneNumber = "000000111",
                     latitude = 52.4913, longitude = -4.0505, regionName = "Bow Street",
                     imageResId = R.drawable.shin_chan
                 ),
                 Fosterer(
-                    name = "Bob Jones", address = "Llanbadarn Fawr", phoneNumber = "01970 654321",
+                    name = "Person2", address = "Llanbadarn Fawr", phoneNumber = "01970 654321",
                     latitude = 52.4100, longitude = -4.0500, regionName = "Aberystwyth",
                     imageResId = R.drawable.person2
                 )
