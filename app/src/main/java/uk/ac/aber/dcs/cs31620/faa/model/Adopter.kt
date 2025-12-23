@@ -12,5 +12,6 @@ data class Adopter(
     val name: String,
     val address: String,
     val latitude: Double,
-    val longitude: Double
+    val longitude: Double,
+    val imageResId: Int = uk.ac.aber.dcs.cs31620.faa.R.drawable.shin_chan
 )

@@ -10,6 +10,8 @@ class FaaRepository(application: Application) {
     private val fostererDao = FaaRoomDatabase.getDatabase(application)!!.fostererDao()
     val fostererList = fostererDao.getAllFosterers()
 
+    private val adopterDao = FaaRoomDatabase.getDatabase(application)!!.adopterDao()
+
     suspend fun insert(cat: Cat) {
         catDao.insertSingleCat(cat)
     }
@@ -61,4 +63,8 @@ class FaaRepository(application: Application) {
         catDao.getCatsAdmittedBetweenDatesSync(startDate, endDate)
 
     fun getCatsByFosterer(fostererId: Long) = catDao.getCatsByFostererId(fostererId)
+
+    fun login(username: String, password: String) = adopterDao.getAdopterByCredentials(username, password)
+
+
 }

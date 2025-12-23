@@ -21,7 +21,7 @@ import uk.ac.aber.dcs.cs31620.faa.R
 import uk.ac.aber.dcs.cs31620.faa.model.Adopter
 import uk.ac.aber.dcs.cs31620.faa.model.AdopterDao
 
-@Database(entities = [Cat::class, Fosterer::class, Adopter::class], version = 7)
+@Database(entities = [Cat::class, Fosterer::class, Adopter::class], version = 8)
 @TypeConverters(LocalDateTimeConverter::class, GenderConverter::class)
 abstract class FaaRoomDatabase : RoomDatabase() {
     abstract fun catDao(): CatDao
@@ -109,6 +109,10 @@ abstract class FaaRoomDatabase : RoomDatabase() {
             )
             instance.fostererDao().insertMultipleFosterers(fosterers)
 
+
+
+
+
             val adopterDao = instance.adopterDao()
             val dummyAdopter = Adopter(
                 username = "user",
@@ -116,7 +120,8 @@ abstract class FaaRoomDatabase : RoomDatabase() {
                 name = "My Test User",
                 address = "Aberystwyth University",
                 latitude = 52.4180,
-                longitude = -4.0657
+                longitude = -4.0657 ,
+                imageResId = R.drawable.shin_chan
             )
             adopterDao.insertAdopter(dummyAdopter)
         }

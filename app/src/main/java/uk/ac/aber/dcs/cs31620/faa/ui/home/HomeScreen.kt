@@ -41,18 +41,23 @@ import java.time.LocalDateTime
 import kotlin.collections.get
 import kotlin.random.Random
 import androidx.core.net.toUri
+import uk.ac.aber.dcs.cs31620.faa.model.AdopterViewModel
+import androidx.navigation.NavHostController
+
 
 @Composable
 fun HomeScreenTopLevel(
-    navController: NavController,
-    catsViewModel: CatsViewModel = viewModel()
+    navController: NavHostController,
+    catsViewModel: CatsViewModel = viewModel(),
+    adopterViewModel: AdopterViewModel
 )
 {
     val recentCats by catsViewModel.recentCats.observeAsState(listOf())
 
     HomeScreen(
         navController = navController,
-        recentCats = recentCats
+        recentCats = recentCats,
+        adopterViewModel = adopterViewModel
     )
 }
 
@@ -63,13 +68,15 @@ fun HomeScreenTopLevel(
  */
 @Composable
 fun HomeScreen(
-    navController: NavController,
-    recentCats: List<Cat>
+    navController: NavHostController,
+    recentCats: List<Cat>,
+    adopterViewModel: AdopterViewModel
 ) {
     val coroutineScope = rememberCoroutineScope()
     TopLevelScaffold(
         navController = navController,
-        coroutineScope = coroutineScope
+        coroutineScope = coroutineScope,
+        adopterViewModel = adopterViewModel
     ) { innerPadding ->
         Surface(
             modifier = Modifier
@@ -152,6 +159,7 @@ private fun FeaturedCat(
 fun HomeScreenPreview(){
     FAATheme(dynamicColor = false) {
         val navController = rememberNavController()
-        HomeScreen(navController = navController, listOf())
+        HomeScreen(navController = navController, listOf(),
+        adopterViewModel = androidx.lifecycle.viewmodel.compose.viewModel())
     }
 }

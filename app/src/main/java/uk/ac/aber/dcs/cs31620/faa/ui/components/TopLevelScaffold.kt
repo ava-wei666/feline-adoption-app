@@ -8,9 +8,11 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import uk.ac.aber.dcs.cs31620.faa.model.AdopterViewModel
 
 /**
  * Creates the page scaffold to contain top app bar, navigation drawer,
@@ -23,6 +25,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun TopLevelScaffold(
     navController: NavController,
+    adopterViewModel: AdopterViewModel = viewModel(),
     floatingActionButton: @Composable () -> Unit = { },
     snackbarContent: @Composable (SnackbarData) -> Unit = {},
     coroutineScope: CoroutineScope,
@@ -54,7 +57,8 @@ fun TopLevelScaffold(
                             drawerState.open()
                         }
                     }
-                })
+                },
+                    adopterViewModel = adopterViewModel)
             },
             floatingActionButton = floatingActionButton,
             snackbarHost = {
