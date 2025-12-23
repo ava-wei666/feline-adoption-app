@@ -89,7 +89,9 @@ private fun BuildNavigationGraph(
             CatDetailsScreenTopLevel(navController = navController, catId = catId)
         }
         composable(Screen.Fosterers.route) {
-            FosterersScreenTopLevel(navController)
+            FosterersScreenTopLevel(
+                navController = navController,
+                adopterViewModel = adopterViewModel )
         }
         composable(
             route = Screen.FostererProfile.route,
