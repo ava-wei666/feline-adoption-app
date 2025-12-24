@@ -25,6 +25,7 @@ import uk.ac.aber.dcs.cs31620.faa.ui.theme.FAATheme
 /**
  * Defines a dropdown menu linked to an OutlinedButton
  * @param items is a List os strimngs that are the menu items.
+ * @param selectedItem [Modified] The text currently displayed on the button.
  * @param modifier is the standard modifier to allow modification of the
  * component.
  * @param fontSize is the size of the text font used in the OutlineButton.
@@ -35,13 +36,13 @@ import uk.ac.aber.dcs.cs31620.faa.ui.theme.FAATheme
 @Composable
 fun ButtonSpinner(
     items: List<String>,
+    selectedItem: String,
     modifier: Modifier = Modifier,
     fontSize: TextUnit = 16.sp,
     itemClick: (String) -> Unit = {}
 ) {
-    var itemText by rememberSaveable {
-        mutableStateOf(if (items.isNotEmpty()) items[0] else "")
-    }
+
+
     var expanded by rememberSaveable { mutableStateOf(false) }
 
     OutlinedButton(
@@ -51,7 +52,7 @@ fun ButtonSpinner(
         }
     ) {
         Text(
-            text = itemText,
+            text = selectedItem,
             fontSize = fontSize,
             modifier = Modifier.padding(end = 8.dp)
         )
@@ -61,7 +62,6 @@ fun ButtonSpinner(
             contentDescription =
                 stringResource(R.string.dropdown_icon)
         )
-        // More to follow in next slide
 
         DropdownMenu(
             expanded = expanded,
@@ -73,7 +73,6 @@ fun ButtonSpinner(
                     text = { Text(text = it) },
                     onClick = {
                         expanded = false
-                        itemText = it
                         itemClick(it)
                     }
                 )
@@ -90,7 +89,8 @@ private fun SpinnerPreview() {
         val items = listOf("Numbers", "One", "Two")
         ButtonSpinner(
             modifier = Modifier.padding(top = 50.dp),
-            items = items
+            items = items,
+            selectedItem = items[0]
         )
     }
 }

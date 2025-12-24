@@ -90,16 +90,12 @@ fun AddCatScreen(
     navController: NavHostController,
     insertACat: (Cat) -> Unit = {}
 ) {
-    // We don't want to show them the default "any" value at the start. That way we don't
-    // need to check this when we save. copyOfRange gives us the part we're interested in
-    var values = stringArrayResource(R.array.gender_array)
-    val genderValues = values.copyOfRange(1, values.size)
-    values = stringArrayResource(R.array.breed_array)
-    val breedValues = values.copyOfRange(1, values.size)
+    val genderValues = stringArrayResource(R.array.gender_array).let { it.copyOfRange(1, it.size) }
+    val breedValues = stringArrayResource(R.array.breed_array).let { it.copyOfRange(1, it.size) }
 
     var catName by rememberSaveable { mutableStateOf("") }
-    var gender by rememberSaveable { mutableStateOf( genderValues[0] ) }
-    var breed by rememberSaveable { mutableStateOf( breedValues[0] ) }
+    var gender by rememberSaveable { mutableStateOf(genderValues[0]) }
+    var breed by rememberSaveable { mutableStateOf(breedValues[0]) }
     var catDescription by rememberSaveable { mutableStateOf("") }
     val defaultImagePath = stringResource(R.string.default_image_path)
     var imagePath by rememberSaveable { mutableStateOf(defaultImagePath) }
@@ -107,11 +103,11 @@ fun AddCatScreen(
 
     val formattedDob by remember {
         derivedStateOf {
-            DateTimeFormatter
-                .ofPattern("MMM dd yyyy")
-                .format(dob)
+            DateTimeFormatter.ofPattern("MMM dd yyyy").format(dob)
         }
     }
+
+    HandleBackButton(navController)
 
     Scaffold(
         floatingActionButton = {
@@ -128,7 +124,6 @@ fun AddCatScreen(
                             insertACat(newCat)
                         }
                     )
-                    // We can now go back to caller
                     navController.navigateUp()
                 },
             ) {
@@ -139,15 +134,10 @@ fun AddCatScreen(
             }
         },
         topBar = {
-            TopAppBar(title = {
-                Text(stringResource(R.string.addCat))
-            },
+            TopAppBar(
+                title = { Text(stringResource(R.string.addCat)) },
                 navigationIcon = {
-                    IconButton(
-                        onClick = {
-                            navController.navigateUp()
-                        }
-                    ) {
+                    IconButton(onClick = { navController.navigateUp() }) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = stringResource(R.string.goBack)
@@ -159,20 +149,15 @@ fun AddCatScreen(
     ) { innerPadding ->
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
+            verticalArrangement = Arrangement.Top,
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize()
         ) {
-
-
             CatImage(
                 imagePath = imagePath,
-                modifier = Modifier
-                    .padding(start = 24.dp, end = 24.dp),
-                updateImagePath = {
-                    imagePath = it
-                }
+                modifier = Modifier.padding(start = 24.dp, end = 24.dp),
+                updateImagePath = { imagePath = it }
             )
 
             CatNameInput(
@@ -180,36 +165,27 @@ fun AddCatScreen(
                 modifier = Modifier
                     .padding(top = 16.dp, start = 24.dp, end = 24.dp)
                     .fillMaxWidth(),
-                updateName = {
-                    catName = it
-                }
+                updateName = { catName = it }
             )
 
             GenderInput(
+                gender = gender,
                 values = genderValues,
-                modifier = Modifier
-                    .padding(top = 8.dp),
-                updateGender = {
-                    gender = it
-                }
+                modifier = Modifier.padding(top = 8.dp),
+                updateGender = { gender = it }
             )
 
             BreedInput(
+                breed = breed,
                 values = breedValues,
-                modifier = Modifier
-                    .padding(top = 8.dp),
-                updateBreed = {
-                    breed = it
-                }
+                modifier = Modifier.padding(top = 8.dp),
+                updateBreed = { breed = it }
             )
 
             DateOfBirth(
                 formattedDob = formattedDob,
-                modifier = Modifier
-                    .padding(top = 8.dp),
-                updateDob = {
-                    dob = it
-                }
+                modifier = Modifier.padding(top = 8.dp),
+                updateDob = { dob = it }
             )
 
             CatDescriptionInput(
@@ -218,9 +194,7 @@ fun AddCatScreen(
                     .padding(start = 24.dp, end = 24.dp, top = 8.dp, bottom = 8.dp)
                     .fillMaxWidth()
                     .weight(1f),
-                updateDescription = {
-                    catDescription = it
-                }
+                updateDescription = { catDescription = it }
             )
         }
     }
@@ -235,15 +209,21 @@ private fun insertCat(
     imagePath: String,
     doInsert: (Cat) -> Unit = {}
 ) {
+    if (name.isNotEmpty() && imagePath.isNotEmpty()) {
 
-    if (name.isNotEmpty() && imagePath.isNotEmpty()){
+        val genderEnum = try {
+            Gender.valueOf(gender.uppercase())
+        } catch (e: Exception) {
+            Gender.MALE
+        }
+
         val cat = Cat(
             id = 0,
             name = name,
-            gender = Gender.valueOf(gender.uppercase()),
+            gender = genderEnum,
             breed = breed,
             description = description,
-            dob = dob.atStartOfDay(), // We don't care about the time
+            dob = dob.atStartOfDay(),
             admissionDate = LocalDateTime.now(),
             imagePath = imagePath
         )
@@ -259,27 +239,23 @@ fun CatDescriptionInput(
 ) {
     OutlinedTextField(
         value = catDescription,
-        label = {
-            Text(text = stringResource(R.string.enterDescription))
-        },
+        label = { Text(text = stringResource(R.string.enterDescription)) },
         onValueChange = { updateDescription(it) },
         modifier = modifier
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DateOfBirth(
     formattedDob: String,
     modifier: Modifier,
     updateDob: (LocalDate) -> Unit
 ) {
-    // State used to show the dialog
     var openDialog by rememberSaveable { mutableStateOf(false) }
 
     OutlinedButton(
-        onClick = {
-            openDialog = true
-        },
+        onClick = { openDialog = true },
         modifier = modifier
     ) {
         Text(
@@ -288,40 +264,31 @@ fun DateOfBirth(
         )
     }
 
-    // Define the date picker dialog. Will be recomposed if openDialog changes state
-    if (openDialog){
-        // Keeps track of the current DatePicker state
-        // It is possible to configure this, e.g. so that dates after today are not
-        // selectable
+    if (openDialog) {
         val datePickerState = rememberDatePickerState()
-        // We don't want the Confirm button to be enabled until
-        // user selects a date
         val confirmEnabled by remember {
             derivedStateOf { datePickerState.selectedDateMillis != null }
         }
         DatePickerDialog(
-            onDismissRequest = {
-                // Leave empty so that user has to click a button to leave
-                // rather than just outside the dialog or on the back button
-            },
+            onDismissRequest = { openDialog = false },
             confirmButton = {
                 TextButton(
                     onClick = {
-                        // Close the dialog
                         openDialog = false
-                        // We convert from milliseconds to LocalDate and call updateDob to hoist
-                        // the state
-                        val selectedDate =
-                            LocalDateTimeConverter.toLocalDate(datePickerState.selectedDateMillis!!)
-                        updateDob(selectedDate.toLocalDate())
+                        datePickerState.selectedDateMillis?.let {
+                            val selectedDate = LocalDateTimeConverter.toLocalDate(it)
+                            updateDob(selectedDate.toLocalDate())
+                        }
                     },
                     enabled = confirmEnabled
                 ) {
-                  Text(stringResource(R.string.ok))
+                    Text(stringResource(R.string.ok))
                 }
             },
             dismissButton = {
-                TextButton(onClick = { openDialog = false }) { Text(stringResource(R.string.cancel)) }
+                TextButton(onClick = { openDialog = false }) {
+                    Text(stringResource(R.string.cancel))
+                }
             }
         ) {
             DatePicker(state = datePickerState)
@@ -331,31 +298,31 @@ fun DateOfBirth(
 
 @Composable
 fun BreedInput(
+    breed: String,
     values: Array<String>,
     modifier: Modifier,
     updateBreed: (String) -> Unit
 ) {
     ButtonSpinner(
         items = values.asList(),
+        selectedItem = breed,
         modifier = modifier,
-        itemClick = {
-            updateBreed(it)
-        }
+        itemClick = { updateBreed(it) }
     )
 }
 
 @Composable
 fun GenderInput(
+    gender: String,
     values: Array<String>,
     modifier: Modifier,
     updateGender: (String) -> Unit
 ) {
     ButtonSpinner(
         items = values.asList(),
+        selectedItem = gender,
         modifier = modifier,
-        itemClick = {
-            updateGender(it)
-        }
+        itemClick = { updateGender(it) }
     )
 }
 
@@ -367,9 +334,7 @@ fun CatNameInput(
 ) {
     OutlinedTextField(
         value = catName,
-        label = {
-            Text(text = stringResource(id = R.string.cat_name))
-        },
+        label = { Text(text = stringResource(id = R.string.cat_name)) },
         onValueChange = { updateName(it) },
         modifier = modifier
     )
@@ -382,25 +347,23 @@ private fun CatImage(
     modifier: Modifier,
     updateImagePath: (String) -> Unit = {}
 ) {
-    var photoFile: File? = remember { null }
+    var photoFile by remember { mutableStateOf<File?>(null) }
     val ctx = LocalContext.current
 
     val resultLauncher =
-        rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            if (it.resultCode == RESULT_OK) {
-                updateImagePath(
-                    "file://${photoFile!!.absolutePath}"
-                )
+        rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == RESULT_OK) {
+                photoFile?.let {
+                    updateImagePath("file://${it.absolutePath}")
+                }
             }
         }
 
-    // Should recompose if imagePath changes as a result of taking the picture
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
         modifier = modifier
     ) {
-
         GlideImage(
             model = Uri.parse(imagePath),
             contentDescription = stringResource(R.string.cat_image),
@@ -408,10 +371,7 @@ private fun CatImage(
             modifier = Modifier
                 .height(200.dp)
                 .clickable {
-                    takePicture(
-                        ctx = ctx,
-                        resultLauncher = resultLauncher
-                    ) {
+                    takePicture(ctx = ctx, resultLauncher = resultLauncher) {
                         photoFile = it
                     }
                 }
@@ -425,61 +385,43 @@ private fun takePicture(
     resultLauncher: ManagedActivityResultLauncher<Intent, ActivityResult>,
     updateFile: (File) -> Unit
 ) {
-    // See configuration instructions added to AndroidManifest.xml
     val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
     var photoFile: File? = null
 
-    // Create the File where the photo should go
     try {
         photoFile = ResourceUtil.createImageFile(ctx)
     } catch (ex: IOException) {
-        // Error occurred while creating the File
-        Toast.makeText(
-            ctx,
-            ctx.getString(R.string.cannot_create_image_file),
-            Toast.LENGTH_SHORT
-        ).show()
+        Toast.makeText(ctx, ctx.getString(R.string.cannot_create_image_file), Toast.LENGTH_SHORT).show()
     }
 
-    // Continue only if the File was successfully created
     photoFile?.let {
-        val photoUri = FileProvider.getUriForFile(
-            ctx,
-            ctx.packageName,
-            it
-        )
+        val photoUri = FileProvider.getUriForFile(ctx, ctx.packageName, it)
         takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
         takePictureIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
-        // Request will fail if a camera app not available.
         try {
             resultLauncher.launch(takePictureIntent)
-            updateFile(photoFile)
+            updateFile(it)
         } catch (e: ActivityNotFoundException) {
-            Toast.makeText(ctx, R.string.cannotTakePicture, Toast.LENGTH_LONG)
-                .show()
+            Toast.makeText(ctx, R.string.cannotTakePicture, Toast.LENGTH_LONG).show()
         }
     }
 }
 
-// Not required or used. But here for your reference
 @Composable
 private fun HandleBackButton(navController: NavHostController) {
-    // When back button is pressed we will navigate up the Compose
-    // hierarchy. navigateUp will pop the Compose navigation back stack automatically.
-    val backCallback: OnBackPressedCallback =
-        object : OnBackPressedCallback(true /* enabled by default */) {
+    val backCallback = remember {
+        object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 navController.navigateUp()
             }
         }
+    }
 
-    val backDispatcher = checkNotNull(LocalOnBackPressedDispatcherOwner.current) {
-        "No OnBackPressedDispatcherOwner was provided via LocalOnBackPressedDispatcherOwner"
-    }.onBackPressedDispatcher
-
+    val backDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
     val lifecycleOwner = LocalLifecycleOwner.current
+
     DisposableEffect(lifecycleOwner, backDispatcher) {
-        backDispatcher.addCallback(lifecycleOwner, backCallback)
+        backDispatcher?.addCallback(lifecycleOwner, backCallback)
         onDispose {
             backCallback.remove()
         }

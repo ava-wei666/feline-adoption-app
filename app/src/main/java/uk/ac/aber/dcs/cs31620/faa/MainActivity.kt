@@ -75,7 +75,7 @@ private fun BuildNavigationGraph(
             HomeScreenTopLevel(navController, catsViewModel, adopterViewModel)
         }
         composable(Screen.Cats.route) {
-            CatsScreenTopLevel(navController, catsViewModel)
+            CatsScreenTopLevel(navController, catsViewModel,adopterViewModel = adopterViewModel)
         }
         composable(Screen.Login.route) {
             LoginScreen(navController, modifier, adopterViewModel)
@@ -105,7 +105,7 @@ private fun BuildNavigationGraph(
         composable(Screen.AdopterProfile.route) {
             AdopterProfileScreen(
                 navController = navController,
-                adopterViewModel = adopterViewModel // 必须传这个经理进去！
+                adopterViewModel = adopterViewModel
             )
         }
     }
