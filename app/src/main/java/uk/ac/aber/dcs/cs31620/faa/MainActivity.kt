@@ -29,6 +29,8 @@ import uk.ac.aber.dcs.cs31620.faa.ui.theme.FAATheme
 import uk.ac.aber.dcs.cs31620.faa.ui.home.HomeScreenTopLevel
 import uk.ac.aber.dcs.cs31620.faa.ui.navigation.Screen
 import uk.ac.aber.dcs.cs31620.faa.ui.fosterers.FosterersScreenTopLevel
+import uk.ac.aber.dcs.cs31620.faa.ui.profile.AdopterProfileScreen
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -99,6 +101,12 @@ private fun BuildNavigationGraph(
         ) { backStackEntry ->
             val id = backStackEntry.arguments?.getLong("fostererId") ?: 0L
             FostererProfileScreen(navController = navController, fostererId = id)
+        }
+        composable(Screen.AdopterProfile.route) {
+            AdopterProfileScreen(
+                navController = navController,
+                adopterViewModel = adopterViewModel // 必须传这个经理进去！
+            )
         }
     }
 }

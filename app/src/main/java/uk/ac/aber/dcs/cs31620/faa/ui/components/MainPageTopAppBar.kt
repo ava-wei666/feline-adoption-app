@@ -33,7 +33,8 @@ import androidx.compose.ui.Modifier
 @Composable
 fun MainPageTopAppBar(
     onClick: () -> Unit = {},
-    adopterViewModel: AdopterViewModel = viewModel()
+    adopterViewModel: AdopterViewModel = viewModel(),
+    onProfileClick: () -> Unit = {}
 ) {
     val user by adopterViewModel.user.observeAsState()
 
@@ -52,18 +53,23 @@ fun MainPageTopAppBar(
         actions = {
             if (user != null) {
                 IconButton(onClick = { /* switch to the personal center */ }) {
-                    Image(
-                        painter = painterResource(id = user!!.imageResId),
-                        contentDescription = "User Avatar",
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier
-                            .size(32.dp)
-                            .clip(CircleShape)
-                            .border(1.dp, MaterialTheme.colorScheme.primary, CircleShape)
-                    )
+                    if (user != null) {
+                        IconButton(onClick = onProfileClick) {
+                            Image(
+                                painter = painterResource(id = user!!.imageResId),
+                                contentDescription = "User Profile",
+                                contentScale = ContentScale.Crop,
+                                modifier = Modifier
+                                    .size(32.dp)
+                                    .clip(CircleShape)
+                                    .border(1.dp, MaterialTheme.colorScheme.primary, CircleShape))
+
+                        }
+                    }
                 }
             }
         }
+
     )
 }
 

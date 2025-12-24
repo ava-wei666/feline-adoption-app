@@ -13,15 +13,9 @@ import androidx.navigation.NavController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import uk.ac.aber.dcs.cs31620.faa.model.AdopterViewModel
+import uk.ac.aber.dcs.cs31620.faa.ui.navigation.Screen
 
-/**
- * Creates the page scaffold to contain top app bar, navigation drawer,
- * bottom navigation button and of course the page content.
- * @param navController To pass through the NavHostController since navigation is required
- * @param pageContent So that callers can plug in their own page content.
- * By default an empty lambda.
- * @author Chris Loftus
- */
+
 @Composable
 fun TopLevelScaffold(
     navController: NavController,
@@ -30,12 +24,9 @@ fun TopLevelScaffold(
     snackbarContent: @Composable (SnackbarData) -> Unit = {},
     coroutineScope: CoroutineScope,
     snackbarHostState: SnackbarHostState? = null,
-    pageContent:
-    @Composable (innerPadding: PaddingValues) -> Unit = {}
+    pageContent: @Composable (innerPadding: PaddingValues) -> Unit = {}
 ) {
-    val drawerState =
-        rememberDrawerState(initialValue = DrawerValue.Closed)
-    //val coroutineScope = rememberCoroutineScope()
+    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
 
     MainPageNavigationDrawer(
         navController = navController,
@@ -46,19 +37,23 @@ fun TopLevelScaffold(
             }
         }
     ) {
-
         Scaffold(
             topBar = {
-                MainPageTopAppBar(onClick = {
-                    coroutineScope.launch {
-                        if (drawerState.isOpen) {
-                            drawerState.close()
-                        } else {
-                            drawerState.open()
+                MainPageTopAppBar(
+                    onClick = {
+                        coroutineScope.launch {
+                            if (drawerState.isOpen) {
+                                drawerState.close()
+                            } else {
+                                drawerState.open()
+                            }
                         }
+                    },
+                    adopterViewModel = adopterViewModel,
+                    onProfileClick = {
+                        navController.navigate(Screen.AdopterProfile.route)
                     }
-                },
-                    adopterViewModel = adopterViewModel)
+                )
             },
             floatingActionButton = floatingActionButton,
             snackbarHost = {

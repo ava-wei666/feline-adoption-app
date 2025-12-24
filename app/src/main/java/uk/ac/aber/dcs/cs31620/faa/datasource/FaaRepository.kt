@@ -1,6 +1,7 @@
 package uk.ac.aber.dcs.cs31620.faa.datasource
 
 import android.app.Application
+import uk.ac.aber.dcs.cs31620.faa.model.Adopter
 import uk.ac.aber.dcs.cs31620.faa.model.Cat
 import uk.ac.aber.dcs.cs31620.faa.model.Gender
 import java.time.LocalDateTime
@@ -66,5 +67,6 @@ class FaaRepository(application: Application) {
 
     fun login(username: String, password: String) = adopterDao.getAdopterByCredentials(username, password)
 
+    suspend fun updateAdopter(adopter: Adopter) = adopterDao.updateAdopter(adopter)
 
 }
