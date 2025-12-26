@@ -1,8 +1,10 @@
 package uk.ac.aber.dcs.cs31620.faa.datasource
 
 import android.app.Application
+import androidx.lifecycle.LiveData
 import uk.ac.aber.dcs.cs31620.faa.model.Adopter
 import uk.ac.aber.dcs.cs31620.faa.model.Cat
+import uk.ac.aber.dcs.cs31620.faa.model.Fosterer
 import uk.ac.aber.dcs.cs31620.faa.model.Gender
 import java.time.LocalDateTime
 
@@ -69,4 +71,6 @@ class FaaRepository(application: Application) {
 
     suspend fun updateAdopter(adopter: Adopter) = adopterDao.updateAdopter(adopter)
 
-}
+    fun getFostererById(id: Long) = fostererDao.getFostererById(id)
+    }
+

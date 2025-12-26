@@ -18,11 +18,9 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import uk.ac.aber.dcs.cs31620.faa.R
 import uk.ac.aber.dcs.cs31620.faa.model.AdopterViewModel
 import uk.ac.aber.dcs.cs31620.faa.model.Cat
@@ -32,7 +30,6 @@ import uk.ac.aber.dcs.cs31620.faa.ui.components.CatCard
 import uk.ac.aber.dcs.cs31620.faa.ui.components.DefaultSnackbar
 import uk.ac.aber.dcs.cs31620.faa.ui.components.SearchArea
 import uk.ac.aber.dcs.cs31620.faa.ui.components.TopLevelScaffold
-import uk.ac.aber.dcs.cs31620.faa.ui.theme.FAATheme
 import uk.ac.aber.dcs.cs31620.faa.ui.navigation.Screen
 
 @Composable
@@ -42,7 +39,6 @@ fun CatsScreenTopLevel(
     adopterViewModel: AdopterViewModel
 ){
     val catList by catsViewModel.catList.observeAsState(listOf())
-
     val searchDistance by catsViewModel.searchDistance.observeAsState(50f)
     val currentUser by adopterViewModel.user.observeAsState()
 
@@ -97,7 +93,6 @@ fun CatsScreen(
             val breedList = stringArrayResource(id = R.array.breed_array).toList()
             val genderList = stringArrayResource(id = R.array.gender_array).toList()
             val ageList = stringArrayResource(id = R.array.age_range_array).toList()
-
             val regionList = listOf("Any region", "Aberystwyth", "London", "Birmingham", "Manchester", "Liverpool", "Glasgow", "Other")
 
             SearchArea(
@@ -127,14 +122,5 @@ fun CatsScreen(
                 }
             }
         }
-    }
-}
-
-@Composable
-@Preview
-fun CatsScreenPreview(){
-    FAATheme(dynamicColor = false) {
-        val navController = rememberNavController()
-        CatsScreen(navController = navController)
     }
 }

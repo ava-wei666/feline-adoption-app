@@ -16,4 +16,6 @@ interface FostererDao {
 
     @Query("SELECT * FROM fosterers WHERE regionName = :region")
     fun getFosterersByRegion(region: String): Flow<List<Fosterer>>
+    @Query("SELECT * FROM fosterers WHERE id = :id")
+    fun getFostererById(id: Long): kotlinx.coroutines.flow.Flow<Fosterer?>
 }

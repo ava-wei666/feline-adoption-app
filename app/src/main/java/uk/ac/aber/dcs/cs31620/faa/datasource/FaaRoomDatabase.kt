@@ -21,7 +21,7 @@ import uk.ac.aber.dcs.cs31620.faa.R
 import uk.ac.aber.dcs.cs31620.faa.model.Adopter
 import uk.ac.aber.dcs.cs31620.faa.model.AdopterDao
 
-@Database(entities = [Cat::class, Fosterer::class, Adopter::class], version = 8)
+@Database(entities = [Cat::class, Fosterer::class, Adopter::class], version = 9)
 @TypeConverters(LocalDateTimeConverter::class, GenderConverter::class)
 abstract class FaaRoomDatabase : RoomDatabase() {
     abstract fun catDao(): CatDao
@@ -97,12 +97,12 @@ abstract class FaaRoomDatabase : RoomDatabase() {
 
             val fosterers = listOf(
                 Fosterer(
-                    name = "Shin Chan", address = "123 Main St", phoneNumber = "000000111",
+                    id = 1L, name = "Shin Chan", address = "123 Main St", phoneNumber = "000000111",
                     latitude = 52.4913, longitude = -4.0505, regionName = "Bow Street",
                     imageResId = R.drawable.shin_chan
                 ),
                 Fosterer(
-                    name = "Person2", address = "Llanbadarn Fawr", phoneNumber = "01970 654321",
+                    id = 2L, name = "Person2", address = "Llanbadarn Fawr", phoneNumber = "01970 654321",
                     latitude = 52.4100, longitude = -4.0500, regionName = "Aberystwyth",
                     imageResId = R.drawable.person2
                 )

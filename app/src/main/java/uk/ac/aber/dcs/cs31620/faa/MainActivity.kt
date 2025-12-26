@@ -1,36 +1,36 @@
 package uk.ac.aber.dcs.cs31620.faa
 
-import androidx.navigation.NavType
-import androidx.navigation.navArgument
-import uk.ac.aber.dcs.cs31620.faa.ui.cats.CatDetailsScreenTopLevel
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.LocalActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import uk.ac.aber.dcs.cs31620.faa.model.AdopterViewModel
 import uk.ac.aber.dcs.cs31620.faa.model.CatsViewModel
 import uk.ac.aber.dcs.cs31620.faa.ui.authentication.LoginScreen
 import uk.ac.aber.dcs.cs31620.faa.ui.cats.AddCatScreenTopLevel
+import uk.ac.aber.dcs.cs31620.faa.ui.cats.CatDetailsScreenTopLevel
 import uk.ac.aber.dcs.cs31620.faa.ui.cats.CatsScreenTopLevel
+import uk.ac.aber.dcs.cs31620.faa.ui.fosterers.FostererCatsScreen
 import uk.ac.aber.dcs.cs31620.faa.ui.fosterers.FostererProfileScreen
-import uk.ac.aber.dcs.cs31620.faa.ui.theme.FAATheme
+import uk.ac.aber.dcs.cs31620.faa.ui.fosterers.FosterersScreenTopLevel
 import uk.ac.aber.dcs.cs31620.faa.ui.home.HomeScreenTopLevel
 import uk.ac.aber.dcs.cs31620.faa.ui.navigation.Screen
-import uk.ac.aber.dcs.cs31620.faa.ui.fosterers.FosterersScreenTopLevel
 import uk.ac.aber.dcs.cs31620.faa.ui.profile.AdopterProfileScreen
-
+import uk.ac.aber.dcs.cs31620.faa.ui.theme.FAATheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,8 +38,13 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             FAATheme(dynamicColor = false) {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    BuildNavigationGraph(Modifier.padding(innerPadding))
+                // 修改点：去掉了外层的 Scaffold 和 padding(innerPadding)
+                // 直接使用 Surface 包裹，让内部页面自己处理全屏布局
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    BuildNavigationGraph()
                 }
             }
         }
@@ -69,44 +74,61 @@ private fun BuildNavigationGraph(
 
     NavHost(
         navController = navController,
-        startDestination = startDestination
+        startDestination = startDestination,
+        modifier = modifier
     ) {
         composable(Screen.Home.route) {
             HomeScreenTopLevel(navController, catsViewModel, adopterViewModel)
         }
         composable(Screen.Cats.route) {
-            CatsScreenTopLevel(navController, catsViewModel,adopterViewModel = adopterViewModel)
+            CatsScreenTopLevel(navController, catsViewModel, adopterViewModel)
         }
+
         composable(Screen.Login.route) {
-            LoginScreen(navController, modifier, adopterViewModel)
+            LoginScreen(navController, adopterViewModel)
         }
+
+        composable(Screen.SignUp.route) {
+            LoginScreen(navController, adopterViewModel, isSignUpMode = true)
+        }
+
         composable(Screen.AddCat.route) {
             AddCatScreenTopLevel(navController)
         }
+
         composable(
             route = Screen.CatDetails.route,
             arguments = listOf(navArgument("catId") { type = NavType.IntType })
         ) { backStackEntry ->
             val catId = backStackEntry.arguments?.getInt("catId") ?: 0
-            CatDetailsScreenTopLevel(navController = navController, catId = catId)
+            CatDetailsScreenTopLevel(navController, catId, catsViewModel, adopterViewModel)
         }
+
         composable(Screen.Fosterers.route) {
             FosterersScreenTopLevel(
                 navController = navController,
-                adopterViewModel = adopterViewModel )
+                adopterViewModel = adopterViewModel
+            )
         }
+
         composable(
             route = Screen.FostererProfile.route,
             arguments = listOf(navArgument("fostererId") { type = NavType.LongType })
         ) { backStackEntry ->
             val id = backStackEntry.arguments?.getLong("fostererId") ?: 0L
-            FostererProfileScreen(navController = navController, fostererId = id)
+            FostererProfileScreen(navController, id)
         }
+
+        composable(
+            route = Screen.FostererCats.route,
+            arguments = listOf(navArgument("fostererId") { type = NavType.LongType })
+        ) { backStackEntry ->
+            val id = backStackEntry.arguments?.getLong("fostererId") ?: 0L
+            FostererCatsScreen(navController, id)
+        }
+
         composable(Screen.AdopterProfile.route) {
-            AdopterProfileScreen(
-                navController = navController,
-                adopterViewModel = adopterViewModel
-            )
+            AdopterProfileScreen(navController, adopterViewModel)
         }
     }
 }

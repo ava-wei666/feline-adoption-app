@@ -11,7 +11,6 @@ import uk.ac.aber.dcs.cs31620.faa.datasource.FaaRepository
 class AdopterViewModel(application: Application) : AndroidViewModel(application) {
     private val repository = FaaRepository(application)
 
-    // used to store current login user
     private val _user = MutableLiveData<Adopter?>(null)
     val user: LiveData<Adopter?> = _user
 
@@ -23,12 +22,24 @@ class AdopterViewModel(application: Application) : AndroidViewModel(application)
         }
     }
 
-    fun doLogout() {
-        _user.value = null
+    // ✅ 新增：注册逻辑
+    fun doRegister(username: String, password: String) {
+        viewModelScope.launch {
+            val newAdopter = Adopter(
+                username = username,
+                password = password,
+                name = "New Adopter",
+                address = "Wales",
+                latitude = 52.41,
+                longitude = -4.08
+            )
+            repository.updateAdopter(newAdopter)
+            _user.value = newAdopter
+        }
     }
 
-    fun isUserLoggedIn(): Boolean {
-        return _user.value != null
+    fun doLogout() {
+        _user.value = null
     }
 
     fun saveUserChanges(updatedAdopter: Adopter) {

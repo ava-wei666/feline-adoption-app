@@ -29,16 +29,17 @@ class CatsViewModel(application: Application) : AndroidViewModel(application) {
 
     private val _currentUserLocation = MutableLiveData<Adopter?>(null)
 
+    // 保持你原有的 switchMap 链式结构
     val catList: LiveData<List<Cat>> = allCats.switchMap { cats: List<Cat> ->
         allFosterers.switchMap { fosterers: List<Fosterer> ->
             _searchDistance.switchMap { distance: Float ->
                 _currentUserLocation.map { user: Adopter? ->
+                    // 无论 user 是否为 null，都进入 filterCats 处理
                     filterCats(cats, fosterers, user, distance, catSearch)
                 }
             }
         }
     }
-
 
     val recentCats: LiveData<List<Cat>> = allCats.map { list: List<Cat> ->
         if (list.size > 5) list.take(5) else list
@@ -46,12 +47,14 @@ class CatsViewModel(application: Application) : AndroidViewModel(application) {
 
     fun updateCatSearch(newSearch: CatSearch) {
         catSearch = newSearch
+        // 触发 LiveData 链式更新
         _searchDistance.value = _searchDistance.value
     }
 
     fun updateDistance(dist: Float) { _searchDistance.value = dist }
     fun updateUserLocation(user: Adopter?) { _currentUserLocation.value = user }
 
+    // ✅ 核心修复：优化过滤逻辑以支持游客模式
     private fun filterCats(
         cats: List<Cat>,
         fosterers: List<Fosterer>,
@@ -60,26 +63,41 @@ class CatsViewModel(application: Application) : AndroidViewModel(application) {
         search: CatSearch
     ): List<Cat> {
         return cats.filter { cat ->
+            // 1. 基础属性筛选
             val breedMatch = search.breed == "Any breed" || cat.breed == search.breed
             val genderMatch = search.gender == "Any gender" || cat.gender.name.equals(search.gender, true)
 
-
+            // 找到这只猫对应的主人
             val fosterer = fosterers.find { it.id == cat.fostererId }
 
-            val regionMatch = if (search.region == "Any region") true else {
+            // 2. 区域筛选 (修正逻辑：即使没找到主人，只要选 Any region 也算匹配)
+            val regionMatch = if (search.region == "Any region") {
+                true
+            } else {
                 fosterer?.regionName.equals(search.region, true) ?: false
             }
 
-            val distanceMatch = if (user == null || fosterer == null) true else {
-                val results = FloatArray(1)
-                Location.distanceBetween(user.latitude, user.longitude, fosterer.latitude, fosterer.longitude, results)
-                (results[0] / 1000) <= maxDistance
+            // 3. 距离筛选 (修正逻辑：如果是游客 user == null，则直接跳过距离检查，返回 true)
+            val distanceMatch = if (user == null) {
+                true // 游客状态下，不进行距离限制
+            } else {
+                // 已登录状态，尝试计算距离
+                fosterer?.let {
+                    val results = FloatArray(1)
+                    Location.distanceBetween(
+                        user.latitude, user.longitude,
+                        it.latitude, it.longitude,
+                        results
+                    )
+                    (results[0] / 1000) <= maxDistance
+                } ?: false // 如果找不到寄养人坐标，则不显示（安全考虑）
             }
 
             breedMatch && genderMatch && regionMatch && distanceMatch
         }
     }
 
+    // 保持你原有的插入逻辑
     fun insertCat(cat: Cat) {
         viewModelScope.launch {
             repository.insert(cat)
