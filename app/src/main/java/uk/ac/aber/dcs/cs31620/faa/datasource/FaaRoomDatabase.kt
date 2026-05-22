@@ -99,9 +99,13 @@ abstract class FaaRoomDatabase : RoomDatabase() {
 
             instance.catDao().insertMultipleCats(listOf(cat1, cat2, cat3))
 
+            // Seed a demo adopter account so the app can be explored without a
+            // sign-up step. Demo login -> username: "user", password: "password"
+            // (see README). This is sample data only; a production app would
+            // never store passwords in plain text.
             val adopterDao = instance.adopterDao()
             adopterDao.insertAdopter(Adopter(
-                username = "user", password = "password", name = "My Test User",
+                username = "user", password = "password", name = "Demo User",
                 address = "Aberystwyth University", latitude = 52.4180, longitude = -4.0657,
                 imageResId = R.drawable.shin_chan
             ))

@@ -80,6 +80,15 @@ Command-line build:
 gradlew.bat assembleDebug    # Windows
 ```
 
+## Demo account
+
+The app seeds a demo adopter account on first launch, so you can explore the
+logged-in features (fosterer search and contact, profile editing) without
+signing up first:
+
+- **Username:** `user`
+- **Password:** `password`
+
 ## Licence
 
 Released under the [MIT Licence](LICENSE).
