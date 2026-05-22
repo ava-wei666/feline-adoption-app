@@ -8,6 +8,12 @@ with Kotlin and Jetpack Compose as the assessed coursework (Assignment 1) for
 This repository contains the completed and submitted coursework, published as a
 personal portfolio piece.
 
+The base app — navigation scaffolding, the initial screens and the Room database
+setup — comes from the FAA workshop template provided by the CS31620 module. The
+Assignment 1 features are my own work: adopter accounts and authentication,
+fosterer management, distance- and region-based filtering, and the editable
+adopter profile.
+
 ## Features
 
 - **Browse cats** available for adoption with image, name, breed, gender and age
