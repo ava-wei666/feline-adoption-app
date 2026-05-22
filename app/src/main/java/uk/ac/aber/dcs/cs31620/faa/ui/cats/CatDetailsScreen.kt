@@ -188,7 +188,7 @@ fun DetailCardRow(label: String, value: String) {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            //label颜色改成了黑色
+            // Label text is rendered in black
             Text(text = label, color = Color.Black, fontSize = 16.sp)
             Text(text = value, color = Color.Black, fontWeight = FontWeight.Bold, fontSize = 16.sp)
         }

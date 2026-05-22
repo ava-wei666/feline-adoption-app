@@ -33,7 +33,7 @@ fun LoginScreen(
     isSignUpMode: Boolean = false
 ) {
     val currentUser by adopterViewModel.user.observeAsState()
-    val authError by adopterViewModel.authError.observeAsState(false) // 观察 ViewModel 报错
+    val authError by adopterViewModel.authError.observeAsState(false) // Observe authentication error state from the ViewModel
 
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -82,7 +82,7 @@ fun LoginScreen(
                 OutlinedTextField(
                     value = username,
                     onValueChange = { username = it; localError = false; adopterViewModel.clearError() },
-                    placeholder = { Text("ziw11@aber.ac.uk", color = Color.LightGray) },
+                    placeholder = { Text("name@example.com", color = Color.LightGray) },
                     modifier = Modifier.fillMaxWidth().height(56.dp).padding(top = 8.dp),
                     shape = RoundedCornerShape(50),
                     isError = isError,

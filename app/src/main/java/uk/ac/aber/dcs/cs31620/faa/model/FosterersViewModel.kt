@@ -48,7 +48,7 @@ class FosterersViewModel(application: Application) : AndroidViewModel(applicatio
         return list.filter { f ->
             val regionMatch = if (targetRegion == "Any region") true else f.regionName.equals(targetRegion, ignoreCase = true)
 
-            //看距离。如果没登录就不卡距离了
+            // Only apply the distance filter when a user is logged in
             val distanceMatch = if (user == null) {
                 true
             } else {
