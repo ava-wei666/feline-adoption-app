@@ -21,6 +21,16 @@ personal portfolio piece.
 - **Home screen** highlighting featured cats
 - Light/dark theme with Material 3 dynamic colour support (Android 12+)
 
+## Screenshots
+
+| Home | Browse & filter cats | Cat details |
+|:---:|:---:|:---:|
+| <img src="docs/screenshots/01-home.jpg" width="240" alt="Home screen"> | <img src="docs/screenshots/02-cats.jpg" width="240" alt="Browse and filter cats"> | <img src="docs/screenshots/03-cat-details.jpg" width="240" alt="Cat details"> |
+| **Adopter login** | **Fosterer profile** | **Edit adopter profile** |
+| <img src="docs/screenshots/06-login.jpg" width="240" alt="Adopter login"> | <img src="docs/screenshots/04-fosterer.jpg" width="240" alt="Fosterer profile"> | <img src="docs/screenshots/05-adopter-profile.jpg" width="240" alt="Edit adopter profile"> |
+
+_Captured from the app running on a device, using the seeded demo data._
+
 ## Tech stack
 
 | Area | Technology |
@@ -50,6 +60,7 @@ app/src/main/java/uk/ac/aber/dcs/cs31620/faa/
     └── theme/            Colours, typography, theming
 
 docs/partA-design/   Design mockups produced for Part A of the assignment
+docs/screenshots/    App screenshots shown in this README
 ```
 
 ## Design mockups
