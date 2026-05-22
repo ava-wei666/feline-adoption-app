@@ -53,7 +53,6 @@ fun CatCard(
                         bottom.linkTo(parent.bottom)
                     }
             )
-            // 已删除 IconButton 垃圾桶部分
         }
     }
 }

@@ -19,7 +19,7 @@ import uk.ac.aber.dcs.cs31620.faa.model.Fosterer
 fun FostererCard(
     fosterer: Fosterer,
     modifier: Modifier = Modifier,
-    distance: String = "", // 新增距离参数
+    distance: String = "",
     selectAction: (Fosterer) -> Unit = {}
 ) {
     Card(
@@ -30,7 +30,7 @@ fun FostererCard(
     ) {
         Column {
             GlideImage(
-                model = fosterer.imageResId, // 匹配你的 Fosterer.kt
+                model = fosterer.imageResId,
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
@@ -44,7 +44,7 @@ fun FostererCard(
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold
                 )
-                // ✅ 对应图 2：显示距离
+
                 if (distance.isNotEmpty()) {
                     Text(
                         text = distance,

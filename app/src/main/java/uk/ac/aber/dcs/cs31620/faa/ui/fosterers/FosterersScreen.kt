@@ -36,7 +36,7 @@ import kotlin.math.roundToInt
 fun FosterersScreenTopLevel(
     navController: NavHostController,
     viewModel: FosterersViewModel = viewModel(),
-    adopterViewModel: AdopterViewModel // Required parameter
+    adopterViewModel: AdopterViewModel
 ) {
     val fostererList by viewModel.fostererList.observeAsState(listOf())
     val searchDistance by viewModel.searchDistance.observeAsState(50f)

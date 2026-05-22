@@ -25,7 +25,7 @@ import uk.ac.aber.dcs.cs31620.faa.model.AdopterViewModel
 fun MainPageTopAppBar(
     onClick: () -> Unit = {},
     adopterViewModel: AdopterViewModel = viewModel(),
-    onProfileClick: () -> Unit = {} // ✅ 确保这里有回调
+    onProfileClick: () -> Unit = {}
 ) {
     val user by adopterViewModel.user.observeAsState()
 
@@ -38,7 +38,7 @@ fun MainPageTopAppBar(
         },
         actions = {
             if (user != null) {
-                IconButton(onClick = onProfileClick) { // ✅ 点击执行跳转
+                IconButton(onClick = onProfileClick) {
                     Image(
                         painter = painterResource(id = user!!.imageResId),
                         contentDescription = "User Profile",

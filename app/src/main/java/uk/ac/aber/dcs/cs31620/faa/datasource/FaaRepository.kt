@@ -1,18 +1,18 @@
 package uk.ac.aber.dcs.cs31620.faa.datasource
 
 import android.app.Application
-import androidx.lifecycle.LiveData
 import uk.ac.aber.dcs.cs31620.faa.model.Adopter
+import androidx.lifecycle.LiveData
 import uk.ac.aber.dcs.cs31620.faa.model.Cat
-import uk.ac.aber.dcs.cs31620.faa.model.Fosterer
 import uk.ac.aber.dcs.cs31620.faa.model.Gender
+import uk.ac.aber.dcs.cs31620.faa.model.Fosterer
 import java.time.LocalDateTime
 
 class FaaRepository(application: Application) {
     private val catDao = FaaRoomDatabase.getDatabase(application)!!.catDao()
     private val fostererDao = FaaRoomDatabase.getDatabase(application)!!.fostererDao()
-    val fostererList = fostererDao.getAllFosterers()
 
+    val fostererList = fostererDao.getAllFosterers()
     private val adopterDao = FaaRoomDatabase.getDatabase(application)!!.adopterDao()
 
     suspend fun insert(cat: Cat) {
@@ -23,47 +23,26 @@ class FaaRepository(application: Application) {
         catDao.insertMultipleCats(cats)
     }
 
+
     fun getAllCats() = catDao.getAllCats()
 
-    fun getCats(
-        breed: String, gender: Gender, startDate: LocalDateTime,
-        endDate: LocalDateTime
-    ) =
-        catDao.getCats(breed, gender, startDate, endDate)
+    fun getCats(breed: String, gender: Gender, startDate: LocalDateTime, endDate: LocalDateTime) = catDao.getCats(breed, gender, startDate, endDate)
 
-    fun getRecentCats(startDate: LocalDateTime, endDate: LocalDateTime) =
-        catDao.getCatsAdmittedBetweenDates(startDate, endDate)
+    fun getRecentCats(startDate: LocalDateTime, endDate: LocalDateTime) = catDao.getCatsAdmittedBetweenDates(startDate, endDate)
 
-    fun getCatsByBreed(
-        breed: String
-    ) = catDao.getCatsByBreed(breed)
+    fun getCatsByBreed(breed: String) = catDao.getCatsByBreed(breed)
 
-    fun getCatsByGender(
-        gender: Gender
-    ) = catDao.getCatsByGender(gender)
+    fun getCatsByGender(gender: Gender) = catDao.getCatsByGender(gender)
 
-    fun getCatsBornBetweenDates(startDate: LocalDateTime, endDate: LocalDateTime) =
-        catDao.getCatsBornBetweenDates(startDate, endDate)
+    fun getCatsBornBetweenDates(startDate: LocalDateTime, endDate: LocalDateTime) = catDao.getCatsBornBetweenDates(startDate, endDate)
 
-    fun getCatsByBreedAndGender(breed: String, gender: String) =
-        catDao.getCatsByBreedAndGender(breed, gender)
+    fun getCatsByBreedAndGender(breed: String, gender: String) = catDao.getCatsByBreedAndGender(breed, gender)
 
-    fun getCatsByBreedAndBornBetweenDates(
-        breed: String,
-        startDate: LocalDateTime,
-        endDate: LocalDateTime
-    ) =
-        catDao.getCatsByBreedAndBornBetweenDates(breed, startDate, endDate)
+    fun getCatsByBreedAndBornBetweenDates(breed: String, startDate: LocalDateTime, endDate: LocalDateTime) = catDao.getCatsByBreedAndBornBetweenDates(breed, startDate, endDate)
 
-    fun getCatsByGenderAndBornBetweenDates(
-        gender: Gender,
-        startDate: LocalDateTime,
-        endDate: LocalDateTime
-    ) =
-        catDao.getCatsByGenderAndBornBetweenDates(gender, startDate, endDate)
+    fun getCatsByGenderAndBornBetweenDates(gender: Gender, startDate: LocalDateTime, endDate: LocalDateTime) = catDao.getCatsByGenderAndBornBetweenDates(gender, startDate, endDate)
 
-    fun getRecentCatsSync(startDate: LocalDateTime, endDate: LocalDateTime) =
-        catDao.getCatsAdmittedBetweenDatesSync(startDate, endDate)
+    fun getRecentCatsSync(startDate: LocalDateTime, endDate: LocalDateTime) = catDao.getCatsAdmittedBetweenDatesSync(startDate, endDate)
 
     fun getCatsByFosterer(fostererId: Long) = catDao.getCatsByFostererId(fostererId)
 
@@ -72,5 +51,4 @@ class FaaRepository(application: Application) {
     suspend fun updateAdopter(adopter: Adopter) = adopterDao.updateAdopter(adopter)
 
     fun getFostererById(id: Long) = fostererDao.getFostererById(id)
-    }
-
+}

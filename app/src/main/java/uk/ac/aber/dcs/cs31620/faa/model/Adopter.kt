@@ -5,13 +5,14 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "adopters")
 data class Adopter(
-    @PrimaryKey(autoGenerate = true)
-    val id: Long = 0,
+    @PrimaryKey
     val username: String,
     val password: String,
-    val name: String,
-    val address: String,
-    val latitude: Double,
-    val longitude: Double,
-    val imageResId: Int = uk.ac.aber.dcs.cs31620.faa.R.drawable.shin_chan
+    var name: String = "",
+    var address: String = "",
+    var phoneNumber: String = "",
+    var region: String = "Any region",
+    var latitude: Double = 52.41,
+    var longitude: Double = -4.08,
+    var imageResId: Int = 0
 )

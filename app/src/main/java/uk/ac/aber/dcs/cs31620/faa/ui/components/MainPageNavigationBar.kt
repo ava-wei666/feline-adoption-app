@@ -28,11 +28,10 @@ fun MainPageNavigationBar(
     navController: NavController
 ) {
     NavigationBar {
-        // 获取当前我们在哪个页面
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
 
-        // 1. Home 按钮
+        //home button
         NavigationBarItem(
             icon = {
                 Icon(
@@ -45,11 +44,10 @@ fun MainPageNavigationBar(
             onClick = { doNavigate(Screen.Home.route, navController) }
         )
 
-        // 2. Fosterers 按钮 (新加的！)
+        // fosterers button
         NavigationBarItem(
             icon = {
                 Icon(
-                    // 如果你没有 Outlined.Face，两边都用 Filled.Face 也可以
                     imageVector = if (currentRoute == Screen.Fosterers.route) Icons.Filled.Face else Icons.Outlined.Face,
                     contentDescription = stringResource(id = R.string.fosterers)
                 )
@@ -59,7 +57,7 @@ fun MainPageNavigationBar(
             onClick = { doNavigate(Screen.Fosterers.route, navController) }
         )
 
-        // 3. Cats 按钮
+        // Cats button
         NavigationBarItem(
             icon = {
                 Icon(
@@ -68,7 +66,7 @@ fun MainPageNavigationBar(
                 )
             },
             label = { Text(stringResource(id = R.string.cats)) },
-            selected = currentRoute == Screen.Cats.route, // 只有路由完全匹配才算选中
+            selected = currentRoute == Screen.Cats.route,
             onClick = { doNavigate(Screen.Cats.route, navController) }
         )
     }

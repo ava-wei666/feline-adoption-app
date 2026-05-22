@@ -1,14 +1,14 @@
 package uk.ac.aber.dcs.cs31620.faa.model
 
+import androidx.lifecycle.asLiveData
 import android.app.Application
-import android.location.Location
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.asLiveData
-import androidx.lifecycle.map
-import androidx.lifecycle.switchMap
 import uk.ac.aber.dcs.cs31620.faa.datasource.FaaRepository
+import android.location.Location
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.switchMap
+import androidx.lifecycle.map
 
 class FosterersViewModel(application: Application) : AndroidViewModel(application) {
     private val repository = FaaRepository(application)
@@ -23,13 +23,11 @@ class FosterersViewModel(application: Application) : AndroidViewModel(applicatio
 
     private val _currentUserLocation = MutableLiveData<Adopter?>(null)
 
-    // ✅ 修改点 1：简化逻辑链条，统一交给 filterData 处理
-    val fostererList: LiveData<List<Fosterer>> = allFosterers.switchMap { fosterers ->
-        _searchDistance.switchMap { distance ->
-            _searchRegion.switchMap { region ->
+    val fostererList: LiveData<List<Fosterer>> = allFosterers.switchMap { f ->
+        _searchDistance.switchMap { dist ->
+            _searchRegion.switchMap { reg ->
                 _currentUserLocation.map { user ->
-                    // 无论有没有用户，都去执行过滤，让区域筛选始终有效
-                    filterData(fosterers, user, distance, region)
+                    filterData(f, user, dist, reg)
                 }
             }
         }
@@ -46,41 +44,23 @@ class FosterersViewModel(application: Application) : AndroidViewModel(applicatio
     fun updateUserLocation(user: Adopter?) {
         _currentUserLocation.value = user
     }
+    private fun filterData(list: List<Fosterer>, user: Adopter?, maxDistanceKm: Float, targetRegion: String): List<Fosterer> {
+        return list.filter { f ->
+            val regionMatch = if (targetRegion == "Any region") true else f.regionName.equals(targetRegion, ignoreCase = true)
 
-    // ✅ 修改点 2：允许 user 为空 (Adopter?)
-    private fun filterData(
-        list: List<Fosterer>,
-        user: Adopter?,
-        maxDistanceKm: Float,
-        targetRegion: String
-    ): List<Fosterer> {
-        return list.filter { fosterer ->
-            // 1. 区域筛选 (始终生效)
-            val isRegionOk = if (targetRegion == "Any region") {
+            //看距离。如果没登录就不卡距离了
+            val distanceMatch = if (user == null) {
                 true
             } else {
-                fosterer.regionName.equals(targetRegion, ignoreCase = true)
+                val res = FloatArray(1)
+                Location.distanceBetween(user.latitude, user.longitude, f.latitude, f.longitude, res)
+                (res[0] / 1000) <= maxDistanceKm
             }
 
-            // 2. 距离筛选 (仅登录后生效)
-            val isDistanceOk = if (user == null) {
-                true // 游客状态，不卡距离
-            } else {
-                val results = FloatArray(1)
-                Location.distanceBetween(
-                    user.latitude, user.longitude,
-                    fosterer.latitude, fosterer.longitude,
-                    results
-                )
-                val distanceInKm = results[0] / 1000
-                distanceInKm <= maxDistanceKm
-            }
-
-            isRegionOk && isDistanceOk
+            regionMatch && distanceMatch
         }
     }
 
-    // --- 下面你的代码保持不变 ---
     fun getCatsForFosterer(fostererId: Long) = repository.getCatsByFosterer(fostererId).asLiveData()
 
     fun getFosterer(id: Long): LiveData<Fosterer?> {

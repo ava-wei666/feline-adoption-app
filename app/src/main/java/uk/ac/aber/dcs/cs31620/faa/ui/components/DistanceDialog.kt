@@ -54,7 +54,7 @@ fun DistanceDialog(
                 Column {
                     Text(stringResource(R.string.distance_to_travel_dialog_instructions))
 
-                    // Add slider of distance to travel
+                    // Add slider of distance
                     Slider(
                         modifier = Modifier
                             .padding(top = 16.dp, bottom = 16.dp),
@@ -75,7 +75,7 @@ fun DistanceDialog(
                 TextButton(
                     onClick = {
                         dialogOpen(false)
-                        // Update the distance to the slider value
+                        //display the new distance when travel the slider of distance
                         changeDistance(sliderPosition.toInt())
                     }
                 ) {
@@ -86,7 +86,6 @@ fun DistanceDialog(
                 TextButton(
                     onClick = {
                         dialogOpen(false)
-                        // Use the original distance
                         changeDistance(distance)
                     }
                 ) {

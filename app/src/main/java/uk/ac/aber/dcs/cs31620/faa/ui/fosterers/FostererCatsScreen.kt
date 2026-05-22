@@ -45,7 +45,6 @@ fun FostererCatsScreen(
                 modifier = Modifier.padding(16.dp)
             )
 
-            // ✅ 实现图二：纯净的猫咪网格
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
                 contentPadding = PaddingValues(8.dp),

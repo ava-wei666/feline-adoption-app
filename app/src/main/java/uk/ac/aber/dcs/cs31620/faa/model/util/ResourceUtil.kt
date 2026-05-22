@@ -37,9 +37,9 @@ object ResourceUtil {
         val storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
 
         return File.createTempFile(
-            imageFileName,  /* prefix */
-            ".jpg",  /* suffix */
-            storageDir /* directory */
+            imageFileName,
+            ".jpg",
+            storageDir
         )
     }
 }

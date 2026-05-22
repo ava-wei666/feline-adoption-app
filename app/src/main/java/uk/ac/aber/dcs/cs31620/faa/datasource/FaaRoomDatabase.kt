@@ -21,12 +21,13 @@ import uk.ac.aber.dcs.cs31620.faa.R
 import uk.ac.aber.dcs.cs31620.faa.model.Adopter
 import uk.ac.aber.dcs.cs31620.faa.model.AdopterDao
 
-@Database(entities = [Cat::class, Fosterer::class, Adopter::class], version = 9)
+@Database(entities = [Cat::class, Fosterer::class, Adopter::class], version = 11)
 @TypeConverters(LocalDateTimeConverter::class, GenderConverter::class)
 abstract class FaaRoomDatabase : RoomDatabase() {
     abstract fun catDao(): CatDao
     abstract fun fostererDao(): FostererDao
     abstract fun adopterDao(): AdopterDao
+
     companion object {
         @Volatile
         private var instance: FaaRoomDatabase? = null
@@ -62,38 +63,7 @@ abstract class FaaRoomDatabase : RoomDatabase() {
         }
 
         private suspend fun populateDatabase(context: Context, instance: FaaRoomDatabase) {
-            val upToOneYear = LocalDateTime.now().minusDays(180)
-            val from1to2Years = LocalDateTime.now().minusDays(540)
-            val from2to5Years = LocalDateTime.now().minusDays(1095)
-            val over5Years = LocalDateTime.now().minusDays(3650)
-            val admissionsDate = LocalDateTime.now().minusDays(60)
-            val veryRecentAdmission = LocalDateTime.now()
-
-            val upToOneYearCat = Cat(
-                0, "Tibs", Gender.MALE, "Moggie", "Lorem ipsum...",
-                upToOneYear, veryRecentAdmission, "file:///android_asset/images/cat1.png"
-            )
-
-            val from1to2YearsCat = Cat(
-                0, "Tibs", Gender.MALE, "Moggie", "Lorem ipsum...",
-                from1to2Years, admissionsDate, "file:///android_asset/images/cat1.png"
-            )
-
-            val from2to5YearsCat = Cat(
-                0, "Tibs", Gender.MALE, "Moggie", "Lorem ipsum...",
-                from2to5Years, admissionsDate, "file:///android_asset/images/cat1.png"
-            )
-
-            val over5YearsCat = Cat(
-                0, "Tibs", Gender.MALE, "Moggie", "Lorem ipsum...",
-                over5Years, admissionsDate, "file:///android_asset/images/cat1.png"
-            )
-
-            val catList = mutableListOf(
-                upToOneYearCat, from1to2YearsCat, from2to5YearsCat, over5YearsCat
-            )
-
-            instance.catDao().insertMultipleCats(catList)
+            val now = LocalDateTime.now()
 
             val fosterers = listOf(
                 Fosterer(
@@ -102,28 +72,39 @@ abstract class FaaRoomDatabase : RoomDatabase() {
                     imageResId = R.drawable.shin_chan
                 ),
                 Fosterer(
-                    id = 2L, name = "Person2", address = "Llanbadarn Fawr", phoneNumber = "01970 654321",
+                    id = 2L, name = "Person2", address = "Aberystwyth Town", phoneNumber = "01970 654321",
                     latitude = 52.4100, longitude = -4.0500, regionName = "Aberystwyth",
                     imageResId = R.drawable.person2
                 )
             )
             instance.fostererDao().insertMultipleFosterers(fosterers)
 
+            val cat1 = Cat(
+                0, "Tibs", Gender.MALE, "Moggie", "A cute cat",
+                now.minusDays(180), now, "file:///android_asset/images/cat1.png",
+                fostererId = 1L
+            )
 
+            val cat2 = Cat(
+                0, "Tibs", Gender.FEMALE, "Moggie", "Another cat",
+                now.minusDays(540), now.minusDays(60), "file:///android_asset/images/cat1.png",
+                fostererId = 2L
+            )
 
+            val cat3 = Cat(
+                0, "Tibs", Gender.MALE, "Moggie", "Third cat",
+                now.minusDays(180), now.minusDays(60), "file:///android_asset/images/cat1.png",
+                fostererId = 2L
+            )
 
+            instance.catDao().insertMultipleCats(listOf(cat1, cat2, cat3))
 
             val adopterDao = instance.adopterDao()
-            val dummyAdopter = Adopter(
-                username = "user",
-                password = "password",
-                name = "My Test User",
-                address = "Aberystwyth University",
-                latitude = 52.4180,
-                longitude = -4.0657 ,
+            adopterDao.insertAdopter(Adopter(
+                username = "user", password = "password", name = "My Test User",
+                address = "Aberystwyth University", latitude = 52.4180, longitude = -4.0657,
                 imageResId = R.drawable.shin_chan
-            )
-            adopterDao.insertAdopter(dummyAdopter)
+            ))
         }
     }
 }
